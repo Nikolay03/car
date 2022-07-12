@@ -1,11 +1,15 @@
 const menus = [
   {
     url: '/',
-    name: 'BMW'
+    name: 'car_covers'
   },
   {
     url: '/',
-    name: 'GM'
+    name: 'mats'
+  },
+  {
+    url: '/',
+    name: 'accessories'
   }
 ]
 

@@ -1,5 +1,5 @@
 const mainColor = '#2E384C'
-const greyColor = '#F6F6F6'
+const greyColor = '#fff'
 
 export const widthPoints = {
   mobileS: 320,
@@ -34,7 +34,7 @@ const themes = (breakpoints) => {
     },
     background: {
       primary: '#FFFFFF',
-      secondary: '#F9F6F3',
+      secondary: '#E5E5E5',
       hoverPrimary: '#ECECED',
       warning: '#E2A632',
       bgMask: 'rgba(17, 22, 31, 0.76)',
@@ -49,8 +49,9 @@ const themes = (breakpoints) => {
       button: '#2E384C'
     },
     color: {
-      primary: '#000',
-      secondary: '#737373',
+      primary: '#111',
+      primaryGray: '#222',
+      secondary: '#717171',
       lighten: '#A1A5AD',
       darkGrey: '#686F7E',
       disabled: '#c1c1c1',
@@ -76,7 +77,7 @@ const themes = (breakpoints) => {
     },
     fontSize: {
       primary: laptopM ? '14px' : '16px',
-      large: tabletL ? '27px' : laptopM ? '3.9vw' : '50px',
+      large: tabletL ? '27px' : laptopM ? '4.3vw' : '70px',
       biggest: tabletL ? '24px' : laptopM ? '3.3vw' : '36px',
       bigTwo: tabletL ? '24px' : laptopM ? '3.7vw' : '48px',
       medium: tabletL ? '23px' : laptopM ? '26px' : '32px',
@@ -86,7 +87,7 @@ const themes = (breakpoints) => {
       big: tabletL ? '23px' : laptopM ? '2.9vw' : '20px',
       capitalMedium: laptopM ? '16px' : '20px',
       small: tabletL ? '16px' : '18px',
-      standard: tabletL ? '14px' : '16px',
+      standard: '16px',
       smallest: '15px',
       micro: '14px'
     },

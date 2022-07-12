@@ -1,8 +1,13 @@
 import React from 'react'
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
+import NextLink from 'next/link'
+import { sprintf } from 'sprintf-js'
 
-import menus from '~/constants/menus'
 import HeaderCategories from '~/components/Header/HeaderCategories'
+import { useTranslate } from '~/utils/translate'
+import { useAppData } from '~/providers/DataContext'
+import { getListData } from '~/utils/fetch'
+import { CATEGORY_ITEM_URL } from '~/constants/routes'
 
 const CategoriesWrapper = styled.div`
   visibility: hidden;
@@ -30,7 +35,7 @@ const MenuItem = styled.li`
   grid-gap: 40px;
   text-align: center;
   & a {
-    font-weight: 600;
+    font-weight: 500;
     height: min-content;
     position: relative;
     &:after {
@@ -39,7 +44,7 @@ const MenuItem = styled.li`
       bottom: -2px;
       left: 0px;
       height: 2px;
-      background-color: black;
+      background-color: #111;
       transform-origin: 0% 100%;
       transition: all 400ms cubic-bezier(0.165, 0.84, 0.44, 1) 0s;;
       width: ${({ isActive }) => isActive ? '100%' : '0px'};
@@ -66,20 +71,25 @@ const Menu = styled.ul`
 `
 
 const DesktopMenu = props => {
+  const { translateData } = useTranslate()
+  const { categoryData } = useAppData()
+  const {
+    results
+  } = getListData(categoryData)
   return (
     <>
       <Menu>
-        {menus.map((i, key) => {
-          const name = i.name
-          const url = i.url
+        {results.map((i, key) => {
+          const name = translateData(i, 'name')
+          const id = i.id
+          const children = i.children
           return (
             <MenuItem
-              className={'dfgdfg'}
               key={key}
             >
-              <a href={url}>{name}</a>
+              <NextLink href={sprintf(CATEGORY_ITEM_URL, id)}>{name}</NextLink>
               <CategoriesWrapper>
-                <HeaderCategories />
+                <HeaderCategories data={children} />
               </CategoriesWrapper>
             </MenuItem>
           )

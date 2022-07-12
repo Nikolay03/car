@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import React from 'react'
 
 const Svg = styled.svg`
   transition: fill 300ms;
@@ -15,7 +16,9 @@ const SvgIcon = ({
   ...props
 }) => {
   return (
-    <Svg fill={fill || 'currentColor'} fontSize={fontSize} viewBox={viewBox} height={height} width={width} xmlns={xmlns} {...props}>
+    <Svg
+      fill={fill || 'currentColor'}
+      fontSize={fontSize} viewBox={viewBox} height={height} width={width} xmlns={xmlns} {...props}>
       {children}
     </Svg>
   )

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import React from 'react'
 
 import Breadcrumbs from '~/components/Breadcrumbs'
 import Container from '~/components/elements/Container'

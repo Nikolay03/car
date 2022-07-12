@@ -1,3 +1,6 @@
+/* eslint-disable max-len */
+import React from 'react'
+
 import SvgIcon from './SvgIcon'
 
 const Right = ({ color, ...props }) => {

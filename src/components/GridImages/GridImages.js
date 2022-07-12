@@ -1,6 +1,6 @@
 
-import styled, { css } from 'styled-components'
-import React, { useState } from 'react'
+import styled from 'styled-components'
+import React from 'react'
 
 import { mediaQueries } from '~/constants/mediaQueries'
 
@@ -87,6 +87,7 @@ const GridImages = ({ images, isAvatar }) => {
           else if (length >= 6 && key <= 6) {
             return <Item isAvatar={isAvatar} url={url} key={key} position={key} length={length} />
           }
+          return null
         })}
       </Grid>
     </>

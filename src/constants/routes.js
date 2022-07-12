@@ -1,4 +1,6 @@
+export const HOME = '/'
 
 // products
-export const PRODUCTS = 'products'
-export const PRODUCTS_ITEM_URL = `/${PRODUCTS}/%d/`
+export const CATEGORY = 'category'
+
+export const CATEGORY_ITEM_URL = `/${CATEGORY}/%d/`

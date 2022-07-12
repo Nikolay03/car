@@ -21,13 +21,6 @@ const images = [
   }
 ]
 
-const ImageContainer = styled.div`
-  position: relative;
-  height: 300px;
-  overflow: hidden;
-  width: 100%;
-`
-
 const ProductTitle = styled.div`
   margin: 15px 0px;
   display: flex;
@@ -75,52 +68,10 @@ const ProductSubtitle = styled.p`
   
 `
 
-const responsive = {
-  superLargeDesktop: {
-    breakpoint: { max: 4000, min: 3000 },
-    items: 1
-  },
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 1
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 1
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1
-  }
-}
-
 const ProductCard = props => {
   return (
     <div>
       <CarouselBox>
-        {/* <MultiCarousel */}
-        {/*   responsive={responsive} */}
-        {/*   arrows={false} */}
-        {/*   ssr={true} */}
-        {/*   customDot={<CarouselDot />} */}
-        {/*   autoPlay={false} */}
-        {/*   autoPlaySpeed={8000} */}
-        {/*   infinite={true} */}
-        {/*   pauseOnHover={true} */}
-        {/*   partialVisible={false} */}
-        {/*   containerClass={'react-cert-carousel-list'} */}
-        {/*   showDots={true} */}
-        {/* > */}
-        {/*   {images.map((item, key) => ( */}
-        {/*     <ImageContainer key={key}> */}
-        {/*       <Image */}
-        {/*         width={'100%'} height={'100%'} layout={'responsive'} objectFit={'contain'} */}
-        {/*         src={item.url} */}
-        {/*         alt={'Picture of the author'} */}
-        {/*       /> */}
-        {/*     </ImageContainer> */}
-        {/*   ))} */}
-        {/* </MultiCarousel> */}
         <GridImages images={images} />
       </CarouselBox>
       <div>
