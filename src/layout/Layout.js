@@ -8,10 +8,10 @@ const Wrapper = styled.div`
   padding-top: 81px;
 `
 // Component
-const Layout = ({ children }) => {
+const Layout = ({ children, underLine }) => {
   return (
     <>
-      <Header />
+      <Header underLine={underLine} />
       <Wrapper>
         {children}
       </Wrapper>

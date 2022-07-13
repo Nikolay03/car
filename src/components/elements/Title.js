@@ -16,10 +16,10 @@ const TitleStyled = styled.h3`
   ${(props) => styles(props)}
 `
 
-const Title = ({ as, children, ...props }) => {
+const Title = ({ as, size, children, ...props }) => {
   return (
     <TitleStyled
-      size={as}
+      size={size || as}
       as={as}
       {...props}
     >

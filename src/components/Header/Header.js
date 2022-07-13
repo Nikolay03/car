@@ -18,6 +18,7 @@ const StyledHeader = styled.header`
   top: 0;
   background-color: white;
   transition: box-shadow 300ms ease;
+  border-bottom: ${({ underLine }) => underLine && '1px solid #e3e3e3'};
 `
 const StyledContainer = styled(Container)`
   display: flex;
@@ -50,7 +51,7 @@ const LeftSide = styled.div`
   grid: 1fr / repeat(2, auto);
 `
 
-const Header = props => {
+const Header = ({ underLine }) => {
   const headerRef = useRef()
   useEffect(() => {
     const onScroll = () => {
@@ -64,7 +65,7 @@ const Header = props => {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
   return (
-    <StyledHeader ref={headerRef}>
+    <StyledHeader ref={headerRef} underLine={underLine}>
       <StyledContainer>
         <LeftSide>
           <NextLink href={ROUTES.HOME}>

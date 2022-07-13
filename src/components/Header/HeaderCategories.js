@@ -1,8 +1,10 @@
+import { sprintf } from 'sprintf-js'
 import React from 'react'
 import styled from 'styled-components'
 
 import Container from '~/components/elements/Container'
 import { useTranslate } from '~/utils/translate'
+import { CATEGORY_ITEM_URL } from '~/constants/routes'
 
 const ContainerStyled = styled(Container)`
   padding: 25px 56px;
@@ -70,7 +72,7 @@ const HeaderCategories = ({ data }) => {
                 const nameCh = translateData(i, 'name')
                 return (
                   <li key={idCh}>
-                    <a href={''}>{nameCh}</a>
+                    <a href={sprintf(CATEGORY_ITEM_URL, idCh)}>{nameCh}</a>
                   </li>
                 )
               })}
