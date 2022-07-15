@@ -26,9 +26,8 @@ export default function useRequest (api, options) {
   const stringParams = JSON.stringify(allParams)
 
   const memoParams = useMemo(() => allParams, [stringParams])
-
   const { data, error, isValidating, mutate } = useSWR([api, memoParams], fetcher, {
-    initialData,
+    fallbackData: initialData,
     revalidateOnFocus: false,
     ...restOptions
   })

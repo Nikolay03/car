@@ -34,6 +34,7 @@ const themes = (breakpoints) => {
     },
     background: {
       primary: '#FFFFFF',
+      primary100: '#D7D7D7',
       secondary: '#E5E5E5',
       hoverPrimary: '#ECECED',
       warning: '#E2A632',

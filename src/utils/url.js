@@ -18,10 +18,10 @@ export const paramsToSearch = pipe(toPairs, map(join('=')), join('&'))
 export const appendParamsToQuery = curry((appendParams, router) => {
   const url = router.asPath
   const params = parseParams(url)
-  // @ts-ignore
-  return router.push({
-    query: { ...params, ...appendParams }
-  })
+  return router.replace({
+    pathname: router.pathname,
+    query: { ...router.query, ...params, ...appendParams }
+  }, null, { shallow: true })
 })
 export const getParamsFromHistory = compose(parseParams, decodeURIComponent)
 

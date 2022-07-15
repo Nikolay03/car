@@ -28,8 +28,7 @@ const CategoryDetail = ({ productData, api, ...props }) => {
 }
 
 export async function getServerSideProps (ctx) {
-  const { query, params } = ctx
-  const { slug } = params
+  const { query } = ctx
   const api = API.PRODUCT_LIST
 
   const productData = await fetchData(api, {
@@ -46,7 +45,7 @@ export async function getServerSideProps (ctx) {
     page_size: 3
   })
 
-  const categoryData = await fetchData(sprintf(API.CATEGORY_CATEGORY_DETAIL_LIST, slug), {
+  const categoryData = await fetchData(API.CATEGORY_CATEGORY_LIST, {
     page_size: 3
   })
 

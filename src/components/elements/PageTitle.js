@@ -10,7 +10,7 @@ const Title = styled.h1`
 
 const PageTitle = ({ children }) => {
   return (
-    <Title color={'dark'} style={{ margin: '1.5em 0px' }}>
+    <Title color={'dark'}>
       {children}
     </Title>
   )

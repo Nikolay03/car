@@ -1,24 +1,12 @@
 import React from 'react'
-import styled from 'styled-components'
-import { map, pathOr, pipe, split, propOr, filter, isEmpty } from 'ramda'
+import { map, filter, pipe, split, propOr, prop } from 'ramda'
 import PropTypes from 'prop-types'
 
 import FilterSection from './FilterSection'
 
-const FilterBlock = styled('div')`
-  display: flex;
-  flex-flow: column nowrap;
-  background: #fff;
-  border-radius: 4px;
-  width: 267px;
-  margin: 35px 0 40px;
-`
-const NoOptions = styled('div')`
-  padding: 15px 20px;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 150%;
-`
+import { useCategoryData } from '~/view/Category/CategoryProvider'
+import CategoryBlock from '~/view/Category/CategoryBlock'
+import { useTranslate } from '~/utils/translate'
 
 const emptyStr = ''
 const getIds = (data, key) => pipe(
@@ -28,43 +16,42 @@ const getIds = (data, key) => pipe(
   map(Number)
 )(data)
 
-const defArr = []
-
 const Filter = props => {
   const {
-    data,
     initialValues,
-    onChange,
-    queryParams
+    onChangeFilter
   } = props
+  const { t, translateData } = useTranslate()
 
-  // Const
-  const brands = pathOr(defArr, ['brands'], data)
-  const options = pathOr(defArr, ['option'], data)
-  const countryIds = getIds(initialValues, 'country')
-  const isEmptyOptions = true
-
-  // Options
-  // const optionsContent =
-  //   <>
-  //     {!isEmpty([]) && (
-  //       <FilterSection
-  //         label={'Страна'}
-  //         queryName={'country'}
-  //         ids={[]}
-  //         list={[{ name: 'aaa', id: 1 }]}
-  //         onChange={onChange}
-  //       />
-  //     )}
-  //   </>
+  const { categoryData } = useCategoryData()
+  const filters = prop('children', categoryData) || prop('results', categoryData)
 
   // Render
   return (
-    <FilterBlock>
-      {!isEmptyOptions
-        ? optionsContent
-        : <NoOptions>Нет фильтров</NoOptions>}
-    </FilterBlock>
+    <>
+      {filters.map((item, key) => {
+        const id = item.id
+        const name = translateData(item, 'name')
+        const children = item.children
+        const isLast = filters.length === key + 1
+        const queryKey = 'category'
+        const countryIds = getIds(initialValues, queryKey)
+        return (
+          <CategoryBlock key={id} isLast={isLast}>
+            <FilterSection
+              label={name}
+              queryName={queryKey}
+              ids={countryIds}
+              list={children.map(i => ({ name: translateData(i, 'name'), id: i.id }))}
+              onChange={(queryName, ids) => {
+                const selectedIds = ids.join('-')
+                onChangeFilter({ [queryName]: selectedIds })
+              }}
+            />
+          </CategoryBlock>
+        )
+      })}
+    </>
   )
 }
 

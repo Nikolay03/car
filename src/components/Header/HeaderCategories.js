@@ -1,6 +1,7 @@
 import { sprintf } from 'sprintf-js'
 import React from 'react'
 import styled from 'styled-components'
+import Link from 'next/link'
 
 import Container from '~/components/elements/Container'
 import { useTranslate } from '~/utils/translate'
@@ -55,7 +56,7 @@ const Block = styled.div`
   }
 `
 
-const HeaderCategories = ({ data }) => {
+const HeaderCategories = ({ data, categoryId }) => {
   const { translateData } = useTranslate()
   return (
     <ContainerStyled style={{ grid: `1fr / repeat(${data.length}, 1fr)` }}>
@@ -72,7 +73,10 @@ const HeaderCategories = ({ data }) => {
                 const nameCh = translateData(i, 'name')
                 return (
                   <li key={idCh}>
-                    <a href={sprintf(CATEGORY_ITEM_URL, idCh)}>{nameCh}</a>
+                    <Link href={{
+                      pathname: sprintf(CATEGORY_ITEM_URL, categoryId),
+                      query: {category: idCh}
+                    }}>{nameCh}</Link>
                   </li>
                 )
               })}

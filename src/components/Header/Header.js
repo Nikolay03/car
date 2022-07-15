@@ -11,7 +11,7 @@ import Languages from '~/components/Header/Languages'
 import Basket from '~/icons/Basket'
 
 const StyledHeader = styled.header`
-  z-index: 1;
+  z-index: 2;
   position: fixed;
   left: 0;
   right: 0;

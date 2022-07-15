@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { find, prop, propEq } from 'ramda'
+import { find, flatten, pipe, pluck, prop, propEq } from 'ramda'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import Title from '~/components/elements/Title'
 import { useHomeData } from '~/view/Home/HomeProvider'
@@ -9,6 +11,8 @@ import Image from '~/components/Images/Image'
 import { useTranslate } from '~/utils/translate'
 import Container from '~/components/elements/Container'
 import Button from '~/components/elements/Button'
+import UniversalStaticSelectField from '~/components/elements/select/UniversalStaticSelectField'
+import * as ROUTES from '~/constants/routes'
 
 const ContainerStyled = styled(Container)`
   padding: 0 15px;
@@ -55,20 +59,40 @@ const Content = styled.div`
 
 const HomeCollection = props => {
   const { t } = useTranslate()
-  const { productCategoryData } = useHomeData()
 
+  const [value, setValue] = useState(1)
+  const { productCategoryData } = useHomeData()
+  const router = useRouter()
   const {
     results
   } = getListData(productCategoryData)
   const getChevrolet = find(propEq('name', 'Chevrolet'))(results)
   const children = prop('children', getChevrolet)
+  const allModels = pipe(
+    pluck('children'),
+    flatten
+  )(results)
   return (
     <ContainerStyled>
       <HeaderBlock>
         <Title color={'dark'}>{t('home_collection_product')}</Title>
-        <Button themeType={'dark'}>
-          {t('product_find_model')}
-        </Button>
+        <UniversalStaticSelectField
+          components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null, ClearIndicator: () => null }}
+          typeSelect={'button'}
+          input={{
+            onChange: (val) => {
+              const id = val.id || val
+              router.replace({
+                pathname: ROUTES.CATEGORY_URL,
+                query: { ...router.query, car: id }
+              }, null, { shallow: true })
+              setValue(val)
+            },
+            value: value
+          }}
+          placeholder={t('product_find_model')}
+          list={allModels}
+        />
       </HeaderBlock>
       <GridImages>
         {children.map((i, index) => {
@@ -80,9 +104,14 @@ const HomeCollection = props => {
               <Image src={image} className={'collectionImage'} >
                 <Content>
                   <p>{t('product_for')} {name}</p>
-                  <Button themeType={'lighten'} width={'min-content'}>
-                    {t('see')}
-                  </Button>
+                  <Link href={{
+                    pathname: ROUTES.CATEGORY_URL,
+                    query: { car: id }
+                  }}>
+                    <Button themeType={'lighten'} width={'min-content'}>
+                      {t('see')}
+                    </Button>
+                  </Link>
                 </Content>
               </Image>
             </GridImage>

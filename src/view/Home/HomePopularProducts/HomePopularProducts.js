@@ -56,9 +56,9 @@ const HomePopularProducts = () => {
                 responsive={responsive}
               >
                 {products.map((item) => {
-                  const id = item?.id
+                  const idCh = item?.id
                   return (
-                    <ProductCard key={id} data={item} />
+                    <ProductCard key={idCh} data={item} />
                   )
                 })}
               </Carousel>

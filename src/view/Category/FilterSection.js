@@ -11,6 +11,7 @@ const FilterSection = props => {
 
   return (
     <CheckboxGroup
+      list={list}
       label={label}
       mode={'column'}
       count={count}

@@ -1,40 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
+import { filter, includes, isEmpty, map, not, pipe, pluck } from 'ramda'
 
-import InputLabel from '../InputLabel'
 import { SwitchContainer } from '../Switches'
 
-const Wrap = styled('div')`
-  &:not(:last-child){
-    border-bottom: 1px solid #efefef;
-  }
-`
+import Accordion from '~/components/Accordion'
+
 const Group = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 0.65em 0px 0px 0px;
   height: ${props => props.count > 7 ? '200px' : 'auto'};
   overflow-y: scroll;
   overflow-x: hidden;
-  margin-bottom: 20px;
-  padding: 0 20px;
 `
-const HeaderBlock = styled('div')`
-  display: flex;
-  justify-content: space-between;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 19px;
-  color: #2e384c;
-  padding: 15px 20px;
-`
-const Count = styled.div`
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 129.96%;
-  color: #979BA5;
-`
+
 const Checkboxes = styled('div')`
   ${props =>
     props.mode === 'inline' &&
@@ -54,6 +36,7 @@ const Checkboxes = styled('div')`
 const CheckboxGroup = props => {
   const {
     value,
+    list,
     children,
     label,
     onChange,
@@ -64,6 +47,13 @@ const CheckboxGroup = props => {
 
   const [checkedValues, setCheckedValues] = React.useState(value)
 
+  const hasIn = pipe(
+    pluck('id'),
+    map((val) => includes(val, value)),
+    filter(i => i),
+    isEmpty,
+    not
+  )(list)
   React.useEffect(() => {
     setCheckedValues(value)
   }, [value])
@@ -79,11 +69,7 @@ const CheckboxGroup = props => {
   }
 
   return (
-    <Wrap>
-      <HeaderBlock>
-        <InputLabel>{label}</InputLabel>
-        <Count>{count}</Count>
-      </HeaderBlock>
+    <Accordion title={label} array={list} initialValue={hasIn}>
       <Group {...rest} count={count}>
         <Checkboxes mode={mode}>
           {React.Children.map(children, (child, key) => {
@@ -98,7 +84,7 @@ const CheckboxGroup = props => {
           })}
         </Checkboxes>
       </Group>
-    </Wrap>
+    </Accordion>
   )
 }
 

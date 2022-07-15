@@ -89,7 +89,7 @@ const DesktopMenu = props => {
             >
               <NextLink href={sprintf(CATEGORY_ITEM_URL, id)}>{name}</NextLink>
               <CategoriesWrapper>
-                <HeaderCategories data={children} />
+                <HeaderCategories data={children} categoryId={id} />
               </CategoriesWrapper>
             </MenuItem>
           )

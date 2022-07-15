@@ -32,7 +32,7 @@ const Description = styled('p')`
   color: ${({ theme }) => theme.color.secondary};
 `
 
-const ProductCard = ({ data }) => {
+const ProductCard = ({ data, priceBottom }) => {
   const { translateData } = useTranslate()
 
   const title = translateData(data, 'name')
@@ -50,8 +50,9 @@ const ProductCard = ({ data }) => {
             style={{ height: '300px', width: '100%', userSelect: 'none' }}
           />
         </ImageCont>
-        <SubTitle>{title} <span>{price} сум</span></SubTitle>
+        <SubTitle>{title} {!priceBottom && (<span>{price} сум</span>)}</SubTitle>
         <Description>{description}</Description>
+        {priceBottom && <SubTitle>{price} сум</SubTitle>}
       </Item>
     </ItemWrapper>
   )
