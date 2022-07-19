@@ -9,6 +9,7 @@ import Logo from '~/icons/Logo'
 import * as ROUTES from '~/constants/routes'
 import Languages from '~/components/Header/Languages'
 import Basket from '~/icons/Basket'
+import MobileMenu from '~/components/Header/MobileMenu'
 
 const StyledHeader = styled.header`
   z-index: 2;
@@ -30,18 +31,6 @@ const StyledContainer = styled(Container)`
 
 const LogoContainer = styled.div`
   cursor: pointer;
-`
-
-const RighrSide = styled.div`
-  display: grid;
-  grid-gap: 25px;
-  grid: 1fr / repeat(4, auto);
-  align-items: center;
-  & svg {
-    cursor: pointer;
-    width: 24px;
-    height: 24px;
-  }
 `
 
 const LeftSide = styled.div`
@@ -73,14 +62,9 @@ const Header = ({ underLine }) => {
               <Logo height={51} width={129} />
             </LogoContainer>
           </NextLink>
-          <DesktopMenu />
         </LeftSide>
-        <RighrSide>
-          <a href={'tel:+1-847-555-5555'}>(97) 733-30-06</a>
-          <Languages />
-          <Heart />
-          <Basket color={'transparent'} />
-        </RighrSide>
+        <DesktopMenu />
+        <MobileMenu />
       </StyledContainer>
     </StyledHeader>
   )

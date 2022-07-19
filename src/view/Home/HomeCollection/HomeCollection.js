@@ -13,6 +13,8 @@ import Container from '~/components/elements/Container'
 import Button from '~/components/elements/Button'
 import UniversalStaticSelectField from '~/components/elements/select/UniversalStaticSelectField'
 import * as ROUTES from '~/constants/routes'
+import { mediaQueries } from '~/constants/mediaQueries'
+import FiltersBar from '~/components/elements/FiltersBar'
 
 const ContainerStyled = styled(Container)`
   padding: 0 15px;
@@ -30,10 +32,16 @@ const GridImages = styled.div`
   grid: 1fr / 1fr 1fr;
   grid-gap: 22px;
   width: 100%;
+  @media ${mediaQueries.tabletL} {
+    grid: 1fr / 1fr;
+  }
 `
 
 const GridImage = styled.div`
   grid-row: ${({ isFirst }) => isFirst ? '1 / 3' : null};
+  @media ${mediaQueries.tabletL} {
+    grid-row: auto;
+  }
   & .imageBox {
     position: relative;
     min-height: 300px;

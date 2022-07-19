@@ -3,7 +3,7 @@ import { isEmpty } from 'ramda'
 import { ChevronLeft } from 'react-feather'
 import styled from 'styled-components'
 
-const AccordionTitle = styled.div`
+export const AccordionTitle = styled.div`
     font-weight: 600;
     cursor: pointer;
     border-radius: 1.2em;

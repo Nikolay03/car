@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { isEmpty } from 'ramda'
 
 import Filter from '~/view/Category/Filter'
-import useRequest from '~/hooks/api/useRequest'
 import withFilter from '~/hooks/withFilter'
 import TypesSection from '~/view/Category/TypesSection'
 import PageTitle from '~/components/elements/PageTitle'
@@ -14,11 +13,18 @@ import { useTranslate } from '~/utils/translate'
 import CategorySort from '~/view/Category/CategorySort'
 import ProductCard from '~/components/ProductCard'
 import Skelet from '~/components/Skelet'
+import FiltersBar from '~/components/elements/FiltersBar'
+import { mediaQueries } from '~/constants/mediaQueries'
+import MobileFilterFields from '~/view/Category/MobileFilterFields'
 
 const Content = styled.div`
-  display: grid;
   grid: 1fr / min-content 1fr;
   grid-gap: 35px;
+  display: flex;
+  @media ${mediaQueries.tabletL} {
+    grid: 1fr / 1fr;
+    grid-gap: 35px;
+  }
 `
 
 const ProductsSide = styled.div`
@@ -27,14 +33,29 @@ const ProductsSide = styled.div`
 `
 
 const FilterSide = styled.div`
- min-width: 200px;
+  min-width: 200px;
+  @media ${mediaQueries.tabletL} {
+    display: none;
+  }
 `
 
 const PageHeader = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-between;
   margin: 3.1em 0px;
+  @media ${mediaQueries.tabletL} {
+    margin: 2.1em 0px;
+  }
 `
+
+const ForDesctop = styled.div`
+  display: flex;
+  @media ${mediaQueries.tabletL} {
+    display: none;
+  }
+`
+
 const EmptyProducts = styled('div')`
   margin: 20px 0 0;
   background: #fff;
@@ -45,17 +66,32 @@ const EmptyProducts = styled('div')`
 `
 
 const CategoryGrid = ({ productDataList }) => {
+  const [openFilter, setOpenFilter] = useState(false)
+
   const { t, translateData } = useTranslate()
   const { categoryData } = useCategoryData()
   const { results, isLoading } = productDataList
   const name = translateData(categoryData, 'name')
-  const filterActions = withFilter({ fields: ['price', 'color', 'car', 'category'] })
-
+  const filterActions = withFilter({ fields: ['price', 'color', 'car', 'category', 'carType'] })
+  const filters = (
+    <>
+      <MobileFilterFields {...filterActions} />
+    </>
+  )
   return (
     <>
       <PageHeader>
         <PageTitle>{name}</PageTitle>
-        <CategorySort {...filterActions} />
+        <FiltersBar
+          initialValues={filterActions.initialValues}
+          isOpen={openFilter}
+          setOpen={setOpenFilter}
+        >
+          <div>{filters}</div>
+        </FiltersBar>
+        <ForDesctop>
+          <CategorySort {...filterActions} />
+        </ForDesctop>
       </PageHeader>
       <Content>
         <FilterSide>

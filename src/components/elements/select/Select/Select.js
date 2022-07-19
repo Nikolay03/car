@@ -27,7 +27,6 @@ const SelectWrapper = styled('div')`
       }
     `}
   @media ${mediaQueries.tabletS} {
-    min-width: 100%;
   }
 `
 

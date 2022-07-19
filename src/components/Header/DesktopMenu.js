@@ -2,13 +2,25 @@ import React from 'react'
 import styled from 'styled-components'
 import NextLink from 'next/link'
 import { sprintf } from 'sprintf-js'
+import { Heart } from 'react-feather'
 
 import HeaderCategories from '~/components/Header/HeaderCategories'
 import { useTranslate } from '~/utils/translate'
 import { useAppData } from '~/providers/DataContext'
 import { getListData } from '~/utils/fetch'
 import { CATEGORY_ITEM_URL } from '~/constants/routes'
+import Languages from '~/components/Header/Languages'
+import Basket from '~/icons/Basket'
+import { mediaQueries } from '~/constants/mediaQueries'
 
+const Wrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  @media ${mediaQueries.laptopS} {
+    display: none;
+  }
+`
 const CategoriesWrapper = styled.div`
   visibility: hidden;
   transform: scaleY(0);
@@ -54,6 +66,7 @@ const MenuItem = styled.li`
 
 const Menu = styled.ul`
   display: flex;
+  margin-right: auto;
   & ${MenuItem}:hover {
     & > a {
       &:after {
@@ -70,6 +83,18 @@ const Menu = styled.ul`
   }
 `
 
+const RighrSide = styled.div`
+  display: grid;
+  grid-gap: 25px;
+  grid: 1fr / repeat(4, auto);
+  align-items: center;
+  & svg {
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+  }
+`
+
 const DesktopMenu = props => {
   const { translateData } = useTranslate()
   const { categoryData } = useAppData()
@@ -77,7 +102,7 @@ const DesktopMenu = props => {
     results
   } = getListData(categoryData)
   return (
-    <>
+    <Wrapper>
       <Menu>
         {results.map((i, key) => {
           const name = translateData(i, 'name')
@@ -96,7 +121,13 @@ const DesktopMenu = props => {
         }
         )}
       </Menu>
-    </>
+      <RighrSide>
+        <a href={'tel:+1-847-555-5555'}>(97) 733-30-06</a>
+        <Languages />
+        <Heart />
+        <Basket color={'transparent'} />
+      </RighrSide>
+    </Wrapper>
   )
 }
 

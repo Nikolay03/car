@@ -9,6 +9,11 @@ const locales = {
     ru: 'Смотреть',
     en: 'See',
     uz: ''
+  },
+  input_select_placeholder: {
+    ru: 'Выбрать',
+    en: 'Select',
+    uz: ''
   }
 }
 
