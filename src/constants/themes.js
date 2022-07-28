@@ -45,9 +45,10 @@ const themes = (breakpoints) => {
       snackbar: '#2196f3',
       blue: '#1C65B8',
       buttonPrimary: '#2E384C',
+      buttonDisabled: '#F4F4F4',
       darkBlue: '#212938',
       skeleton: '#eee',
-      button: '#2E384C'
+      button: '#222'
     },
     color: {
       primary: '#111',
@@ -84,7 +85,7 @@ const themes = (breakpoints) => {
       medium: tabletL ? '23px' : laptopM ? '26px' : '32px',
       capitalBig: tabletL ? '18px' : '28px',
       capital: tabletL ? '20px' : laptopM ? '23px' : '24px',
-      capitalTwo: tabletL ? '18px' : laptopM ? '20px' : '24px',
+      capitalTwo: tabletL ? '18px' : laptopM ? '20px' : '22px',
       big: tabletL ? '23px' : laptopM ? '2.9vw' : '20px',
       capitalMedium: laptopM ? '16px' : '20px',
       small: tabletL ? '16px' : '18px',

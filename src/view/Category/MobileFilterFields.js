@@ -1,14 +1,13 @@
 import React from 'react'
 import { filter, map, pipe, prop, propOr, split } from 'ramda'
 
-import UniversalStaticSelectField from '~/components/elements/select/UniversalStaticSelectField'
 import { useCategoryData } from '~/view/Category/CategoryProvider'
 import { getListData } from '~/utils/fetch'
 import { useTranslate } from '~/utils/translate'
 import FilterSection from '~/view/Category/FilterSection'
 import CategoryBlock from '~/view/Category/CategoryBlock'
-import FieldWrapper from '~/components/elements/FieldWrapper'
-import { AccordionTitle } from '~/components/Accordion'
+import FieldWrapper from '~/components/elements/Form/FieldWrapper'
+import UniversalStaticSelectField from '~/components/elements/Form/select/UniversalStaticSelectField'
 
 const emptyStr = ''
 

@@ -1,22 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useRouter } from 'next/router'
-import { find, not, pipe, prop, propEq, propOr } from 'ramda'
-import { ChevronLeft, Globe } from 'react-feather'
-import { CircleFlag } from 'react-circle-flags'
+import { find, propEq, propOr } from 'ramda'
+import { ChevronLeft } from 'react-feather'
 
-import { setLocale } from '~/utils/cookies'
 import { PRICE_TYPES } from '~/constants/constants'
-
-function StyledCircleFlag (props) {
-  return (
-    <CircleFlag
-      height={'15'}
-      width={'15'}
-      {...props}
-    />
-  )
-}
 
 const Wrapper = styled.div`
   position: relative;

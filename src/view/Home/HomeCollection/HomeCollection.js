@@ -10,11 +10,10 @@ import { getListData } from '~/utils/fetch'
 import Image from '~/components/Images/Image'
 import { useTranslate } from '~/utils/translate'
 import Container from '~/components/elements/Container'
-import Button from '~/components/elements/Button'
-import UniversalStaticSelectField from '~/components/elements/select/UniversalStaticSelectField'
+import Button from '~/components/elements/Buttons/Button'
 import * as ROUTES from '~/constants/routes'
 import { mediaQueries } from '~/constants/mediaQueries'
-import FiltersBar from '~/components/elements/FiltersBar'
+import UniversalStaticSelectField from '~/components/elements/Form/select/UniversalStaticSelectField'
 
 const ContainerStyled = styled(Container)`
   padding: 0 15px;

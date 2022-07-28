@@ -1,5 +1,8 @@
 export const HOME = '/'
 
+export const PROFILE = 'profile'
+export const PROFILE_URL = `/${PROFILE}/`
+
 // products
 export const CATEGORY = 'category'
 

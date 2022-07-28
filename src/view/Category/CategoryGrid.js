@@ -68,7 +68,7 @@ const EmptyProducts = styled('div')`
 const CategoryGrid = ({ productDataList }) => {
   const [openFilter, setOpenFilter] = useState(false)
 
-  const { t, translateData } = useTranslate()
+  const { translateData } = useTranslate()
   const { categoryData } = useCategoryData()
   const { results, isLoading } = productDataList
   const name = translateData(categoryData, 'name')

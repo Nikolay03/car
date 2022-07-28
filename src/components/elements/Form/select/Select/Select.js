@@ -7,7 +7,7 @@ import { prop } from 'ramda'
 import selectStyles from './selectStyles'
 import MenuList from './MenuList'
 
-import InputLabel from '~/components/elements/InputLabel'
+import InputLabel from '~/components/elements/Form/InputLabel'
 import { mediaQueries } from '~/constants/mediaQueries'
 
 const options = [

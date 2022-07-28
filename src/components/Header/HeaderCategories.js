@@ -75,7 +75,7 @@ const HeaderCategories = ({ data, categoryId }) => {
                   <li key={idCh}>
                     <Link href={{
                       pathname: sprintf(CATEGORY_ITEM_URL, categoryId),
-                      query: {category: idCh}
+                      query: { category: idCh }
                     }}>{nameCh}</Link>
                   </li>
                 )

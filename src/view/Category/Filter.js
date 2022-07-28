@@ -21,7 +21,7 @@ const Filter = props => {
     initialValues,
     onChangeFilter
   } = props
-  const { t, translateData } = useTranslate()
+  const { translateData } = useTranslate()
 
   const { categoryData } = useCategoryData()
   const filters = prop('children', categoryData) || prop('results', categoryData)

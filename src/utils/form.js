@@ -1,4 +1,4 @@
-import { has, ifElse, isEmpty, join, not, omit, pipe, prop } from 'ramda'
+import { has, ifElse, isEmpty, join, not, omit, pipe, prop, startsWith } from 'ramda'
 import { FORM_ERROR } from 'final-form'
 
 import toCamelCase from '~/utils/toCamelCase'
@@ -58,4 +58,26 @@ export const getFieldError = meta => {
   const validateError = prop('touched', meta) && prop('error', meta)
 
   return validateError || submitError
+}
+
+export const validateRequired = value => {
+  return value ? undefined : 'Обязательное поле'
+}
+
+export const validateEmail = value => {
+  if (!value) return undefined
+
+  // eslint-disable-next-line max-len
+  const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  const isValid = regex.test(value)
+  return isValid ? undefined : 'Неверный формат email'
+}
+
+export const validatePhoneNumber = value => {
+  if (!value) return 'Введите номер телефона'
+
+  const phoneWithPlus = startsWith('+', value)
+  const requiredLength = phoneWithPlus ? 13 : 12
+  if (value.length !== requiredLength) return 'Некорректный номер телефона'
+  return undefined
 }

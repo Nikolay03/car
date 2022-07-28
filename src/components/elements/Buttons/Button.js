@@ -23,8 +23,10 @@ const typeStyles = (themeType, theme) => {
       }
     case 'dark':
       return {
-        color: theme.color.primary,
+        color: '#fff',
+        background: theme.background.button,
         borderRadius: '38px',
+        padding: '15px 30px',
         border: `1px solid ${theme.color.primary}`
       }
     default:
@@ -50,7 +52,8 @@ const Wrap = styled('button')`
   &:disabled {
     cursor: not-allowed;
     background: ${({ theme }) => theme.background.buttonDisabled};
-    color: ${({ theme }) => theme.color.buttonDisabled};
+    color: ${({ theme }) => theme.color.secondary};
+    border-color: transparent;
     transition: ${({ theme }) => `all ${theme.transition.medium}`};
   }
   ${({ styles }) => styles};

@@ -1,3 +1,9 @@
+const USER = 'user'
+
+export const AUTH = `/${USER}/auth/`
+export const LOGIN = `/${USER}/verify/`
+export const ME = `/${USER}/me/`
+
 export const BANNER_LIST = '/banner/'
 
 export const PRODUCT = 'product'

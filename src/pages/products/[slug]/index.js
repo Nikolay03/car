@@ -30,6 +30,7 @@ export async function getServerSideProps ({ params }) {
     }
   }
 
+  // eslint-disable-next-line no-unreachable
   catch (e) {
     return {
       notFound: true

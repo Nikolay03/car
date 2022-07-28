@@ -1,19 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
-import { find, prop, propEq, propOr } from 'ramda'
+import { prop } from 'ramda'
 
 import { useCategoryData } from '~/view/Category/CategoryProvider'
 import { getListData } from '~/utils/fetch'
 import { useTranslate } from '~/utils/translate'
 import Accordion from '~/components/Accordion'
-import { PRICE_TYPES } from '~/constants/constants'
 
 const SimpleGrid = styled.div`
   margin-top: 18px;
   padding: 0px 5px;
   display: grid;
-  grid-gap: 26px 36px;
-  grid-template-columns: repeat( auto-fit, minmax(26px, 26px) )
+  grid-gap: 26px 26px;
+  grid-template-columns: repeat( auto-fit, minmax(41px, 41px) )
 `
 
 const Color = styled.div`
@@ -38,7 +37,7 @@ const ColorsGrid = ({
   initialValues,
   onChangeFilter
 }) => {
-  const { t, translateData } = useTranslate()
+  const { translateData } = useTranslate()
   const { productColorData } = useCategoryData()
   const {
     results
@@ -55,7 +54,7 @@ const ColorsGrid = ({
             <ColorContent key={id} isActive={isActive} >
               <Color
                 style={{ backgroundColor: 'red' }}
-                onClick={() => onChangeFilter({ color: id })} />
+                onClick={() => onChangeFilter({ color: isActive ? null : id })} />
               <span>{name}</span>
             </ColorContent>
           )

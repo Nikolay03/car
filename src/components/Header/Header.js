@@ -1,14 +1,11 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import NextLink from 'next/link'
-import { Heart } from 'react-feather'
 
 import DesktopMenu from '~/components/Header/DesktopMenu'
 import Container from '~/components/elements/Container'
 import Logo from '~/icons/Logo'
 import * as ROUTES from '~/constants/routes'
-import Languages from '~/components/Header/Languages'
-import Basket from '~/icons/Basket'
 import MobileMenu from '~/components/Header/MobileMenu'
 
 const StyledHeader = styled.header`

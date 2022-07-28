@@ -1,14 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { DataProvider } from '~/providers/DataContext'
+import { DataProvider } from '~/providers/DataProvider'
+import { CartProvider } from '~/providers/CartProvider'
+import { AuthProvider } from '~/providers/AuthProvider'
 
 function AppProviders (props) {
-  const { children, categoryData } = props
+  const { children, categoryData, userInfoData } = props
 
   return (
-    <DataProvider categoryData={categoryData}>
-      {children}
+    <DataProvider categoryData={categoryData} userInfoData={userInfoData}>
+      <AuthProvider>
+        <CartProvider>
+          {children}
+        </CartProvider>
+      </AuthProvider>
     </DataProvider>
   )
 }

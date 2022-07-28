@@ -9,7 +9,7 @@ import { mediaQueries } from '~/constants/mediaQueries'
 import menus from '~/constants/menus'
 import { phones } from '~/constants/constants'
 import { useTranslate } from '~/utils/translate'
-import { useAppData } from '~/providers/DataContext'
+import { useAppData } from '~/providers/DataProvider'
 import { getListData } from '~/utils/fetch'
 
 const transition = 'all 200ms ease-out'
@@ -169,9 +169,11 @@ const MobileMenu = () => {
     }
   }, [menuIsOpen])
 
+  // eslint-disable-next-line no-unused-vars
   const { translateData } = useTranslate()
   const { categoryData } = useAppData()
   const {
+    // eslint-disable-next-line no-unused-vars
     results
   } = getListData(categoryData)
 
@@ -213,12 +215,12 @@ const MobileMenu = () => {
                 До 21:00
               </Hour>
             </ConnectionTexts>
-            {/* <Socials> */}
-            {/*   <SocialItems /> */}
-            {/* </Socials> */}
-            {/* <ButtonWrapper> */}
-            {/*   <OrderButton fullWidth={true} /> */}
-            {/* </ButtonWrapper> */}
+            <Socials>
+              {/* <SocialItems /> */}
+            </Socials>
+            <ButtonWrapper>
+              {/* <OrderButton fullWidth={true} /> */}
+            </ButtonWrapper>
           </Connection>
         </ContentMenu>
       </MenuContent>

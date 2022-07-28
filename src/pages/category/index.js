@@ -1,5 +1,4 @@
 import React from 'react'
-import { sprintf } from 'sprintf-js'
 import { prop } from 'ramda'
 
 import { fetchData } from '~/utils/fetch'

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { length } from 'ramda'
 import equal from 'fast-deep-equal'
 
-import Checkbox, { CheckboxGroup } from '~/components/elements/Checkbox'
+import Checkbox, { CheckboxGroup } from '~/components/elements/Form/Checkbox'
 
 const FilterSection = props => {
   const { label, queryName, ids, onChange, list } = props

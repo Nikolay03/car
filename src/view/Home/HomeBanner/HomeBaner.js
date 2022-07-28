@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import Title from '~/components/elements/Title'
 import Container from '~/components/elements/Container'
-import Button from '~/components/elements/Button'
+import Button from '~/components/elements/Buttons/Button'
 import { useHomeData } from '~/view/Home/HomeProvider'
 import { getListData } from '~/utils/fetch'
 import { useTranslate } from '~/utils/translate'

@@ -6,12 +6,12 @@ import { Heart } from 'react-feather'
 
 import HeaderCategories from '~/components/Header/HeaderCategories'
 import { useTranslate } from '~/utils/translate'
-import { useAppData } from '~/providers/DataContext'
+import { useAppData } from '~/providers/DataProvider'
 import { getListData } from '~/utils/fetch'
 import { CATEGORY_ITEM_URL } from '~/constants/routes'
 import Languages from '~/components/Header/Languages'
-import Basket from '~/icons/Basket'
 import { mediaQueries } from '~/constants/mediaQueries'
+import BasketUi from '~/components/Header/Basket'
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,6 +39,7 @@ const CategoriesWrapper = styled.div`
 
 const MenuItem = styled.li`
   padding-bottom: 3px;
+  white-space: nowrap;
   display: flex;
   align-items: center;
   height: 80px;
@@ -125,7 +126,7 @@ const DesktopMenu = props => {
         <a href={'tel:+1-847-555-5555'}>(97) 733-30-06</a>
         <Languages />
         <Heart />
-        <Basket color={'transparent'} />
+        <BasketUi />
       </RighrSide>
     </Wrapper>
   )
