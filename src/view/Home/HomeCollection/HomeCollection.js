@@ -110,7 +110,7 @@ const HomeCollection = props => {
             <GridImage key={id} isFirst={index === 1}>
               <Image src={image} className={'collectionImage'} >
                 <Content>
-                  <p>{t('product_for')} {name}</p>
+                  <p>{t('product_for', { type: name })}</p>
                   <Link href={{
                     pathname: ROUTES.CATEGORY_URL,
                     query: { car: id }

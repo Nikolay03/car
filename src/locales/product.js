@@ -1,8 +1,8 @@
 
 const locales = {
   product_for: {
-    ru: 'Товары для',
-    en: 'Goods for',
+    ru: 'Товары для %(type)s',
+    en: 'Goods for %(type)s',
     uz: ''
   },
   product_find_model: {

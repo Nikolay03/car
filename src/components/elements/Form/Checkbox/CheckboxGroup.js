@@ -44,7 +44,6 @@ const CheckboxGroup = props => {
     count,
     ...rest
   } = props
-
   const [checkedValues, setCheckedValues] = React.useState(value)
 
   const hasIn = pipe(

@@ -35,7 +35,6 @@ const responsive = {
 const HomePopularProducts = () => {
   const { translateData } = useTranslate()
   const { popularProductData } = useHomeData()
-
   const {
     results
   } = getListData(popularProductData)
@@ -44,7 +43,7 @@ const HomePopularProducts = () => {
     <>
       <FullWidth>
         {results.map((i, key) => {
-          if (key === 1) {
+          if (key === 0) {
             const id = i?.id
             const products = i?.products
             const title = translateData(i, 'title')

@@ -1,29 +1,20 @@
 import React from 'react'
-import { filter, map, pipe, prop, propOr, split } from 'ramda'
+import { prop } from 'ramda'
 
 import { useCategoryData } from '~/view/Category/CategoryProvider'
 import { getListData } from '~/utils/fetch'
 import { useTranslate } from '~/utils/translate'
-import FilterSection from '~/view/Category/FilterSection'
-import CategoryBlock from '~/view/Category/CategoryBlock'
 import FieldWrapper from '~/components/elements/Form/FieldWrapper'
 import UniversalStaticSelectField from '~/components/elements/Form/select/UniversalStaticSelectField'
+import Filter from '~/view/Category/Filter'
 
-const emptyStr = ''
-
-const getIds = (data, key) => pipe(
-  propOr(emptyStr, key),
-  split('-'),
-  filter(Boolean),
-  map(Number)
-)(data)
 const MobileFilterFields = ({
   initialValues,
   onChangeFilter
 }) => {
-  const { t, translateData } = useTranslate()
+  const { t } = useTranslate()
 
-  const { productCategoryData, productColorData, categoryData } = useCategoryData()
+  const { productCategoryData, productColorData } = useCategoryData()
   const {
     results: categoryResults
   } = getListData(productCategoryData)
@@ -31,8 +22,6 @@ const MobileFilterFields = ({
   const {
     results: colorResults
   } = getListData(productColorData)
-
-  const filters = prop('children', categoryData) || prop('results', categoryData)
 
   const initialCar = Number(prop('car', initialValues)) || { id: null }
   const initialCarType = Number(prop('carType', initialValues)) || { id: null }
@@ -88,28 +77,10 @@ const MobileFilterFields = ({
           list={colorResults}
         />
       </FieldWrapper>
-      {filters.map((item, key) => {
-        const id = item.id
-        const name = translateData(item, 'name')
-        const children = item.children
-        const isLast = filters.length === key + 1
-        const queryKey = 'category'
-        const countryIds = getIds(initialValues, queryKey)
-        return (
-          <CategoryBlock key={id} isLast={isLast}>
-            <FilterSection
-              label={name}
-              queryName={queryKey}
-              ids={countryIds}
-              list={children.map(i => ({ name: translateData(i, 'name'), id: i.id }))}
-              onChange={(queryName, ids) => {
-                const selectedIds = ids.join('-')
-                onChangeFilter({ [queryName]: selectedIds })
-              }}
-            />
-          </CategoryBlock>
-        )
-      })}
+      <Filter
+        initialValues={initialValues}
+        onChangeFilter={onChangeFilter}
+      />
     </div>
   )
 }

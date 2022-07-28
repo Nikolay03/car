@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { isEmpty } from 'ramda'
+import { find, flatten, isEmpty, map, pipe, prop, propEq } from 'ramda'
+import { useRouter } from 'next/router'
 
 import Filter from '~/view/Category/Filter'
 import withFilter from '~/hooks/withFilter'
@@ -16,6 +17,7 @@ import Skelet from '~/components/Skelet'
 import FiltersBar from '~/components/elements/FiltersBar'
 import { mediaQueries } from '~/constants/mediaQueries'
 import MobileFilterFields from '~/view/Category/MobileFilterFields'
+import { getListData } from '~/utils/fetch'
 
 const Content = styled.div`
   grid: 1fr / min-content 1fr;
@@ -68,10 +70,20 @@ const EmptyProducts = styled('div')`
 const CategoryGrid = ({ productDataList }) => {
   const [openFilter, setOpenFilter] = useState(false)
 
-  const { translateData } = useTranslate()
+  const { t, translateData } = useTranslate()
   const { categoryData } = useCategoryData()
   const { results, isLoading } = productDataList
-  const name = translateData(categoryData, 'name')
+  const { productCategoryData } = useCategoryData()
+  const {
+    results: resultsProductCategory
+  } = getListData(productCategoryData)
+  const { query } = useRouter()
+  const carNameTitle = pipe(
+    map(i => i.children),
+    flatten,
+    find(propEq('id', Number(query?.car)))
+  )(resultsProductCategory)
+  const name = translateData(categoryData, 'name') || t('product_for', { type: prop('name', carNameTitle) })
   const filterActions = withFilter({ fields: ['price', 'color', 'car', 'category', 'carType'] })
   const filters = (
     <>
