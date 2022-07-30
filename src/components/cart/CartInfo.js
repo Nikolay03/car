@@ -4,12 +4,17 @@ import PropTypes from 'prop-types'
 
 import numberFormat from '~/utils/numberFormat'
 import { CartUI } from '~/components/cart/index'
+import { mediaQueries } from '~/constants/mediaQueries'
 
 const CartInfoBlock = styled.div`
   background: #fff;
   padding: 25px 20px 20px;
   border-radius: 5px;
   width: 360px;
+  @media ${mediaQueries.laptopS} {
+    width: 100%;
+    padding: 25px 0px 20px 0px;
+  }
 `
 const PriceBlock = styled.div``
 const PriceBlockItem = styled.div`

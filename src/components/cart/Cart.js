@@ -9,6 +9,7 @@ import { setItemToCart } from '~/components/cart/storage'
 import { useCartData } from '~/providers/CartProvider'
 import { useTranslate } from '~/utils/translate'
 import numberFormat from '~/utils/numberFormat'
+import { mediaQueries } from '~/constants/mediaQueries'
 
 const Row = styled.div`
   display: grid;
@@ -19,6 +20,9 @@ const Card = styled.div`
   background: #fff;
   border-radius: 5px;
   margin-bottom: 60px;
+  @media ${mediaQueries.laptopS} {
+    margin-bottom: 0px;
+  }
 `
 const Description = styled('div')`
   display: flex;
@@ -69,6 +73,15 @@ const Img = styled('div')`
 `
 const ContentPosition = styled.div``
 const ProductArticul = styled.div`
+  font-size: 14px;
+  line-height: 20px;
+  color: ${({ theme }) => theme.color.secondary};
+  @media ${mediaQueries.laptopS} {
+    display: none;
+  }
+`
+
+const ProductPrice = styled.div`
   font-size: 14px;
   line-height: 20px;
   color: ${({ theme }) => theme.color.secondary};
@@ -145,7 +158,7 @@ const Cart = props => {
                         <ProductName>{name}</ProductName>
                         <ProductArticul>Цвет: {colorName}</ProductArticul>
                         <ProductArticul>{shortDescription}</ProductArticul>
-                        <ProductArticul>Стоимость: {numberFormat(price, 'сум')}</ProductArticul>
+                        <ProductPrice>Стоимость: {numberFormat(price, 'сум')}</ProductPrice>
                       </Description>
                       <Buttons>
                         <DeleteButton

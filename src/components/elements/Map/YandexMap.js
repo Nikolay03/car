@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 
 import Button from '~/components/elements/Buttons/Button'
 import Modal from '~/components/Modal'
+import { mediaQueries } from '~/constants/mediaQueries'
 
 const CENTER = [41.30882292588138, 69.25220409208157]
 const API_KEY = 'bc8fdb09-3efc-4819-8ca5-2c1d7f7708d2'
@@ -19,6 +20,9 @@ const buttonStyles = {
 }
 const Container = styled.div`
   height: 532px;
+  @media ${mediaQueries.laptopS} {
+    height: calc(100vh - 70px - 100px);
+  }
 `
 const ModalWrapper = styled.div`
   position: absolute;
@@ -33,11 +37,13 @@ const MapWrapper = styled.div`
   border-radius: 8px;
   overflow: hidden;
   height: 600px;
+  @media ${mediaQueries.laptopS} {
+    height: 100%;
+  }
 `
 const AddressBar = styled.div`
   max-width: ${props => props.loading ? '45px' : '700px'};
   transition: max-width 300ms;
-  white-space: nowrap;
   position: absolute;
   z-index: 10;
   bottom: 90px;
@@ -108,12 +114,6 @@ const YandexMap = (props) => {
       onClose={onToggle}
       title={'Указать на карте'}
       showHeader={false}
-      modalStyles={{
-        margin: 0,
-        top: '50%',
-        position: 'relative',
-        transform: 'translateY(-50%) !important'
-      }}
     >
       <Container>
         <ModalWrapper>

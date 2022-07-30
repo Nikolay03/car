@@ -10,6 +10,7 @@ import { phoneNumberParse, withoutSpaceParse } from '~/utils/fieldParsers'
 import { validatePhoneNumber } from '~/utils/form'
 import OrderSelectField from '~/components/elements/Form/OrderSelectField'
 import Button from '~/components/elements/Buttons/Button'
+import { mediaQueries } from '~/constants/mediaQueries'
 
 const Row = styled.div``
 const AddressInfo = styled.div`
@@ -51,6 +52,9 @@ const SimpleGrid = styled.div`
   display: grid;
   grid-gap: 15px;
   grid: 1fr / 1fr 1fr;
+  @media ${mediaQueries.laptopS} {
+    grid: 1fr / 1fr;
+  }
 `
 
 const Order = props => {
@@ -129,7 +133,6 @@ const Order = props => {
 
                 <ButtonWrapper>
                   <Button
-                    disabled={true}
                     styles={{ minWidth: '300px' }}
                     themeType={'dark'}
                     type={'submit'}

@@ -2,11 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
+import { mediaQueries } from '~/constants/mediaQueries'
+
 const Wrapper = styled.div`
   grid-gap: 15px;
   display: grid;
   flex-wrap: wrap;
-  grid: 1fr / ${({ length }) => `repeat(${length}, 1fr)`}
+  grid: 1fr / ${({ length }) => `repeat(${length}, 1fr)`};
+  @media ${mediaQueries.tabletL} {
+    grid: 1fr / 1fr;
+  }
 `
 const Block = styled.div`
   background: #fff;

@@ -5,10 +5,19 @@ import { Portal } from 'react-portal'
 import { X } from 'react-feather'
 
 import AnimationWrapper from '~/components/AnimationWrapper'
+import { mediaQueries } from '~/constants/mediaQueries'
 
 const StyledModal = styled('div')`
   color: black;
   margin: 50px;
+  top: 50%;
+  position: relative;
+  transform: translateY(-50%) !important;
+  @media ${mediaQueries.laptopS} {
+    height: calc(100% - 100px);
+    top: 0;
+    transform: translateY(0) !important;
+  }
   ${({ modalStyles }) => modalStyles};
 `
 const ModalMask = styled('div')`

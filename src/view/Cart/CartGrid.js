@@ -8,9 +8,13 @@ import { CartInfo } from '~/components/cart'
 import OrderContainer from '~/components/order/OrderContainer'
 import SignInForm from '~/view/sign-in/SignInForm'
 import { useAuth } from '~/providers/AuthProvider'
+import { mediaQueries } from '~/constants/mediaQueries'
 
 const Wrap = styled(Container)`
   padding: 35px 15px;
+  @media ${mediaQueries.laptopS} {
+    padding: 35px 0px;
+  }
 `
 const Title = styled('h3')`
   font-weight: 700;
@@ -22,11 +26,20 @@ const Title = styled('h3')`
 
 const Row = styled.div``
 const Col = styled.div``
+const ColCart = styled.div`
+  @media ${mediaQueries.laptopS} {
+    grid-row: 1
+  }
+`
 
 const SimpleGrid = styled.div`
   display: grid;
   grid-gap: 50px;
   grid: 1fr / 1fr min-content;
+  @media ${mediaQueries.laptopS} {
+    grid: 1fr / 1fr;
+    grid-gap: 0px;
+  }
 `
 
 const CartGrid = props => {
@@ -64,8 +77,8 @@ const CartGrid = props => {
       <Row>
         <Title>Корзина</Title>
       </Row>
-      <SimpleGrid gutter={24}>
-        <Col span={18}>
+      <SimpleGrid>
+        <Col>
           {isAuth
             ? (
               <OrderContainer />
@@ -74,7 +87,7 @@ const CartGrid = props => {
               <SignInForm />
             )}
         </Col>
-        <Col span={6}>
+        <ColCart>
           <CartInfo
             totalPrice={totalPrice}
             totalAmount={totalAmount}
@@ -83,7 +96,7 @@ const CartGrid = props => {
             token={token}
             onDelete={onDelete}
           />
-        </Col>
+        </ColCart>
       </SimpleGrid>
     </Wrap>
   )

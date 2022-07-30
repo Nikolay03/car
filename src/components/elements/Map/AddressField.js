@@ -6,6 +6,7 @@ import { path } from 'ramda'
 
 import TextField from '~/components/elements/Form/TextField'
 import Button from '~/components/elements/Buttons/Button'
+import { mediaQueries } from '~/constants/mediaQueries'
 
 const LocationBlock = styled.div`
   display: grid;
@@ -21,6 +22,7 @@ const LocationText = styled.div`
 const Title = styled.div`
   font-style: normal;
   font-weight: 600;
+  white-space: nowrap;
   font-size: ${({ theme }) => theme.fontSize.capitalTwo};
   line-height: 164.57%;
   color: ${({ theme }) => theme.color.primaryGray};
@@ -39,9 +41,14 @@ const Title = styled.div`
 
 const Wrapper = styled.div`
   position: relative;
-  display: flex;
+  display: grid;
   align-items: center;
   justify-content: space-between;
+  grid: 1fr / min-content min-content;
+  @media ${mediaQueries.mobileXL} {
+    grid: 1fr / 1fr;
+    grid-gap: 10px;
+  }
 `
 
 const Flex = styled.div`
