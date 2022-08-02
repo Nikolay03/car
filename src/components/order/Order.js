@@ -65,7 +65,6 @@ const Order = props => {
     deliveryTypesResults,
     initialValues
   } = props
-  console.warn(orderCreate)
   const { translateData } = useTranslate()
 
   return (

@@ -14,7 +14,7 @@ import { useAuth } from '~/providers/AuthProvider'
 import { useOrderData } from '~/components/order/OrderProvider'
 import { getListData } from '~/utils/fetch'
 import useCreate from '~/hooks/crud/useCreate'
-import { LOGIN, ORDER_CREATE } from '~/constants/api'
+import { ORDER_CREATE } from '~/constants/api'
 import { orderCreateSerializer } from '~/components/order/orderSerializer'
 import { mapResponseToFormError } from '~/utils/form'
 
