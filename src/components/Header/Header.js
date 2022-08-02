@@ -1,12 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import NextLink from 'next/link'
 
 import DesktopMenu from '~/components/Header/DesktopMenu'
 import Container from '~/components/elements/Container'
-import Logo from '~/icons/Logo'
-import * as ROUTES from '~/constants/routes'
 import MobileMenu from '~/components/Header/MobileMenu'
+import Logo from '~/components/Header/Logo'
 
 const StyledHeader = styled.header`
   z-index: 2;
@@ -24,10 +22,6 @@ const StyledContainer = styled(Container)`
   padding: 0px 15px;
   justify-content: space-between;
   align-items: center;
-`
-
-const LogoContainer = styled.div`
-  cursor: pointer;
 `
 
 const LeftSide = styled.div`
@@ -54,11 +48,7 @@ const Header = ({ underLine }) => {
     <StyledHeader ref={headerRef} underLine={underLine}>
       <StyledContainer>
         <LeftSide>
-          <NextLink href={ROUTES.HOME}>
-            <LogoContainer>
-              <Logo height={51} width={129} />
-            </LogoContainer>
-          </NextLink>
+          <Logo />
         </LeftSide>
         <DesktopMenu />
         <MobileMenu />

@@ -7,6 +7,7 @@ const styles = ({ theme, size }) => {
     case 'h2': return { fontSize: theme.fontSize.big, fontWeight: 600 }
     case 'h3': return { fontSize: theme.fontSize.capital }
     case 'h4': return { fontSize: theme.fontSize.medium }
+    case 'h5': return { fontSize: theme.fontSize.small, fontWeight: 600 }
     default: return { fontSize: theme.fontSize.capitalBig, color: theme.color.primaryGray, fontWeight: 600 }
   }
 }

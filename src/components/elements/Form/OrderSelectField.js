@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import { mediaQueries } from '~/constants/mediaQueries'
+import BorderBlock from '~/components/elements/BorderBlock'
 
 const Wrapper = styled.div`
   grid-gap: 15px;
@@ -12,34 +13,6 @@ const Wrapper = styled.div`
   @media ${mediaQueries.tabletL} {
     grid: 1fr / 1fr;
   }
-`
-const Block = styled.div`
-  background: #fff;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid ${({ theme, isActive }) => isActive ? theme.palette.primary : '#dbdbdd'};
-  border-radius: 7px;
-  cursor: pointer;
-  padding: 10px 20px;
-  min-height: 60px;
-  vertical-align: top;
-`
-const TitleFlex = styled.div`
-  display: flex;
-  justify-content: space-between;
-`
-const Title = styled.div`
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.67;
-`
-const SubTitle = styled.div`
-  color: #818591;
-  margin: 3px 0 20px 0;
-  font-size: 14px;
-  line-height: 20px;
 `
 
 const EMPTY_OBJ = {}
@@ -51,25 +24,18 @@ const OrderSelectField = props => {
   } = props
   const onChange = value => input.onChange(value)
   return (
-    <Wrapper length={dataProps.length}>
+    <Wrapper length={dataProps.length === 1 ? 2 : dataProps.length}>
       {dataProps.map(item => {
         const isActive = input.value && input.value.id === item.id
         const toggleItem = isActive ? EMPTY_OBJ : item
         return (
-          <Block
-            isActive={isActive}
+          <BorderBlock
             key={item.id}
+            name={item.name}
+            info={item.info}
             onClick={() => onChange(toggleItem)}
-          >
-            <TitleFlex>
-              <Title>{item.name}</Title>
-            </TitleFlex>
-            {item.info && (
-              <SubTitle>
-                {item.info}
-              </SubTitle>
-            )}
-          </Block>
+            isActive={isActive}
+          />
         )
       })}
     </Wrapper>

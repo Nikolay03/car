@@ -1,48 +1,61 @@
 
 import React from 'react'
-import { sprintf } from 'sprintf-js'
 import { prop } from 'ramda'
 import { useRouter } from 'next/router'
+import { useToasts } from 'react-toast-notifications'
 
-import { orderCreateAction } from './actions'
 import Order from './Order'
 
 import * as ROUTE from '~/constants/routes'
 import { useCartData } from '~/providers/CartProvider'
-import { useAppData } from '~/providers/DataProvider'
 import { removeStorage } from '~/utils/localStorage'
 import { cartClear } from '~/components/cart/storage'
+import { useAuth } from '~/providers/AuthProvider'
+import { useOrderData } from '~/components/order/OrderProvider'
+import { getListData } from '~/utils/fetch'
+import useCreate from '~/hooks/crud/useCreate'
+import { LOGIN } from '~/constants/api'
+import { orderCreateSerializer } from '~/components/order/orderSerializer'
+import { mapResponseToFormError } from '~/utils/form'
 
 const OrderContainer = () => {
   const [products, dispatch] = useCartData()
-
   // Data
-  const { userInfoData } = useAppData()
+  const { user } = useAuth()
+  const { deliveryTypes } = useOrderData()
+  const { addToast } = useToasts()
 
   // Const
   const router = useRouter()
-  const userFullName = prop('fullName', userInfoData)
-  const userUsername = prop('username', userInfoData)
+  const username = prop('username', user)
+  const {
+    results: deliveryTypesResults
+  } = getListData(deliveryTypes)
 
   // MainSubmit
+  const orderCreate = useCreate(LOGIN)
   const onSubmit = values => {
-    orderCreateAction(values, products)
-      .then(({ value }) =>
-        router.replace({ pathname: sprintf(ROUTE.HOME, value.id) }, null, { shallow: true })
-      )
+    orderCreate.create(orderCreateSerializer({ products, ...values }))
+      .then(({ value }) => {
+        addToast('Заказ успешно создан', { appearance: 'success' })
+        return router.replace({ pathname: ROUTE.HOME }, null, { shallow: true })
+      })
       .then(() => removeStorage('cart'))
       .then(() => cartClear(dispatch))
+      .catch(error => {
+        return mapResponseToFormError(error)
+      })
   }
 
   // InitialValues
   const initialValues = {
-    mainPhone: +`${parseInt(userUsername)}`.slice(3) || 999999999,
-    mainFullname: userFullName
+    clientPhone: username
   }
 
   // Render
   return (
     <Order
+      deliveryTypesResults={deliveryTypesResults}
       onSubmit={onSubmit}
       initialValues={initialValues}
     />

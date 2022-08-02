@@ -1,13 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
+import { sprintf } from 'sprintf-js'
 import { find, path, prop, propEq } from 'ramda'
+import Link from 'next/link'
 
+import * as ROUTES from '~/constants/routes'
 import Image from '~/components/Images/Image'
 import { useTranslate } from '~/utils/translate'
 import CartButton from '~/components/elements/Buttons/CartButton'
 import Button from '~/components/elements/Buttons/Button'
-import { removeItemFrom, setItemToCart } from '~/components/cart/storage'
 import { useCartData } from '~/providers/CartProvider'
+import numberFormat from '~/utils/numberFormat'
+import useCartActions from '~/hooks/useCartActions'
 
 const ItemWrapper = styled('div')`
   padding: 0px 11px;
@@ -52,60 +56,57 @@ const ButtonPosition = styled.div`
 
 const ProductCard = ({ data, priceBottom }) => {
   const { translateData } = useTranslate()
+  const id = prop('id', data)
 
-  const [products, dispatch] = useCartData()
+  const [products] = useCartData()
   const title = translateData(data, 'name')
   const description = translateData(data, 'shortDescription')
 
-  const id = prop('id', data)
   const cartProduct = find(propEq('id', id))(products)
   const idChecker = path(['id'], cartProduct)
   const amount = prop('amount', cartProduct)
 
-  const mathValue = 1
-
-  const handleAddFirst = product => setItemToCart(mathValue, product, dispatch)
-  const handleAdd = (product, value) => {
-    return setItemToCart((+value + mathValue).toFixed(1), product, dispatch)
-  }
-  const handleRemove = (product, value) => {
-    return setItemToCart((+value - mathValue).toFixed(1), product, dispatch)
-  }
-
-  const onDelete = () => {
-    return removeItemFrom(id, dispatch)
-  }
+  const {
+    onAddProductFirst,
+    onRemoveProduct,
+    onIncrementProduct,
+    onDecrementProduct
+  } = useCartActions()
 
   const price = data?.price
   return (
     <ItemWrapper>
       <Item>
-        <ImageCont>
-          <Image
-            objectFit={'contain'}
-            src={'/assets/armchair.png'}
-            alt={'banner'}
-            style={{ height: '300px', width: '100%', userSelect: 'none' }}
-          />
-        </ImageCont>
-        <SubTitle>{title} {!priceBottom && (<span>{price} сум</span>)}</SubTitle>
-        <Description>{description}</Description>
-        {priceBottom && <SubTitle>{price} сум</SubTitle>}
+        <Link href={sprintf(ROUTES.PRODUCTS_ITEM_URL, id)}>
+          <div>
+            <ImageCont>
+              <Image
+                objectFit={'contain'}
+                src={'/assets/armchair.png'}
+                alt={'banner'}
+                style={{ height: '300px', width: '100%', userSelect: 'none' }}
+              />
+            </ImageCont>
+            <SubTitle>{title} {!priceBottom && (<span>{numberFormat(price)} сум</span>)}</SubTitle>
+            <Description>{description}</Description>
+            {priceBottom && <SubTitle>{price} сум</SubTitle>}
+          </div>
+        </Link>
         <ButtonPosition>
           {id === idChecker
             ? (
               <CartButton
                 amount={amount}
-                onAdd={() => handleAdd(data, amount)}
-                onRemove={() => handleRemove(data, amount)}
-                onDelete={onDelete}
+                onAdd={() => onIncrementProduct(data, amount)}
+                onRemove={() => onDecrementProduct(data, amount)}
+                onDelete={onRemoveProduct}
                 withDelete={true}
                 withSuffix={true}
               />
             )
             : (
               <Button
-                onClick={() => handleAddFirst(data)}
+                onClick={() => onAddProductFirst(data)}
                 fullWidth={true}
               >
               В корзину

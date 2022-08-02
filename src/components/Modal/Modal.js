@@ -62,6 +62,7 @@ const ModalWrapper = styled('div')`
   overflow-y: auto;
 `
 const ModalContent = styled('div')`
+  overflow-y: auto;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 10px 15px rgba(35, 38, 41, 0.5);

@@ -1,16 +1,19 @@
 
 import React from 'react'
 import styled from 'styled-components'
-import { prop } from 'ramda'
-import { Menu, X } from 'react-feather'
+import { ChevronRight, Menu, X } from 'react-feather'
+import NextLink from 'next/link'
+import { sprintf } from 'sprintf-js'
 
 import hexToRgba from '~/utils/hexToRgba'
 import { mediaQueries } from '~/constants/mediaQueries'
-import menus from '~/constants/menus'
-import { phones } from '~/constants/constants'
 import { useTranslate } from '~/utils/translate'
 import { useAppData } from '~/providers/DataProvider'
 import { getListData } from '~/utils/fetch'
+import { CATEGORY_ITEM_URL } from '~/constants/routes'
+import BasketUi from '~/components/Header/Basket'
+import Languages from '~/components/Header/Languages'
+import SocialItems from '~/components/Header/SocialItems'
 
 const transition = 'all 200ms ease-out'
 
@@ -24,6 +27,16 @@ const Wrapper = styled('div')`
   }
 `
 
+const Grid = styled.div`
+  display: grid;
+  grid-gap: 15px;
+  grid: 1fr / min-content min-content;
+  align-items: center;
+  & a {
+    white-space: nowrap;
+  }
+`
+
 const IconTrigger = styled('div')`
   cursor: pointer;
   display: flex;
@@ -33,9 +46,7 @@ const IconTrigger = styled('div')`
     fill: ${({ theme }) => theme.color.primary};
   }
   :hover {
-    color: ${({ theme }) => theme.color.warning};
     & svg {
-      color: ${({ theme }) => theme.color.warning};
       transition: fill 0ms;
       fill: ${({ theme }) => theme.color.warning};
     }
@@ -53,7 +64,7 @@ const Header = styled('div')`
 const CloseButton = styled('div')`
   display: flex;
   align-items: center;
-  padding: 0px 33px 0px 50px;
+  padding: 0px 19px 0px 50px;
 `
 
 const MenuContent = styled('div')`
@@ -88,7 +99,7 @@ const ElonMusk = styled('div')`
 
 const MenuList = styled('nav')`
   flex-grow: 1;
-  padding: 0px 10px 40px 40px;
+  padding: 0px 15px 40px 40px;
   & button {
     margin-top: 15px;
   }
@@ -100,59 +111,69 @@ const MenuItem = styled('div')`
   padding: 15px 0px;
   text-decoration: none;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   font-size: ${({ theme }) => theme.fontSize.capital};
   font-weight: 500;
   transition: ${props => props.theme.transition};
+  & span {
+    position: relative;
+    &:after {
+      content: " ";
+      position: absolute;
+      bottom: -2px;
+      left: 0px;
+      height: 0.5px;
+      background-color: #111;
+      transform-origin: 0% 100%;
+      transition: all 400ms cubic-bezier(0.165, 0.84, 0.44, 1) 0s;;
+      width: ${({ isActive }) => isActive ? '100%' : '0px'};
+    };
+  }
   &.active {
-    color: ${({ theme }) => theme.color.warning};
-  }
+    & span {
+      &:after {
+        width: 100%;
+      };
+    }
+  };
   &:hover {
-    color: ${({ theme }) => theme.color.warning};
+    & span {
+      &:after {
+        width: 100%;
+      };
+    }
   }
+`
+
+const Actions = styled.div`
+  margin-top: 15px;
+`
+
+const GridActions = styled.div`
+  display: grid;
+  align-items: center;
+  grid-gap: 16px;
+  font-weight: 500;
+  grid: 1fr / 24px 1fr;
 `
 
 const ContentMenu = styled('div')`
   overflow-y: auto;
   min-height: calc(100% - 91px);
   display: flex;
+  padding-bottom: 48px;
   flex-direction: column;
-`
-
-const Connection = styled('div')`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 60px;
 `
 
 const Socials = styled.div`
   display: grid;
   grid-gap: 15px;
-  align-self: center;
-  grid: 1fr / repeat(3, 1fr);
-  margin: 20px 0;
+  grid: 1fr / 1fr;
+  padding: 0px 15px 40px 40px;
   & svg {
-    fill: rgb(93,115,173);
+    fill: ${props => props.theme.color.primary};
   }
-`
-
-const ButtonWrapper = styled.div`
-  padding: 0 20px;
-  width: 100%;
-`
-
-const ConnectionTexts = styled('div')`
-  text-align: center;
-`
-const TelNumber = styled('span')`
-  font-size: ${({ theme }) => theme.fontSize.primary};
-  font-weight: 600;
-  margin-right: 7px;
-`
-const Hour = styled('span')`
-  font-weight: 500;
-  font-size: ${({ theme }) => theme.fontSize.micro};
 `
 
 const MobileMenu = () => {
@@ -169,21 +190,20 @@ const MobileMenu = () => {
     }
   }, [menuIsOpen])
 
-  // eslint-disable-next-line no-unused-vars
   const { translateData } = useTranslate()
   const { categoryData } = useAppData()
   const {
-    // eslint-disable-next-line no-unused-vars
     results
   } = getListData(categoryData)
 
-  const phoneValue = phones[1].value
-  const phoneText = phones[1].name
   return (
     <Wrapper>
-      <IconTrigger onClick={onMenuOpen}>
-        <Menu />
-      </IconTrigger>
+      <Grid>
+        <a href={'tel:+1-847-555-5555'}>(97) 733-30-06</a>
+        <IconTrigger onClick={onMenuOpen}>
+          <Menu />
+        </IconTrigger>
+      </Grid>
 
       <ElonMusk isOpen={menuIsOpen} onClick={onMenuClose} />
       <MenuContent isOpen={menuIsOpen}>
@@ -194,34 +214,35 @@ const MobileMenu = () => {
         </Header>
         <ContentMenu>
           <MenuList>
-            {menus.map((item, index) => {
-              const url = prop('url', item)
-              const label = prop('label', item)
+            {results.map((item, index) => {
+              const name = translateData(item, 'name')
+              const id = item.id
               return (
-                <a href={`#${url}`} key={index}>
+                <NextLink href={sprintf(CATEGORY_ITEM_URL, id)} key={id}>
                   <MenuItem>
-                    <span>{label}</span>
+                    <span>{name}</span>
+                    <ChevronRight size={20} />
                   </MenuItem>
-                </a>
+                </NextLink>
               )
             })}
+            <Actions>
+              {/* <GridActions> */}
+              {/*   <Heart /> */}
+              {/*   <span>Избранное</span> */}
+              {/* </GridActions> */}
+              <NextLink href={'/cart'}>
+                <GridActions>
+                  <BasketUi />
+                  <span>Корзина</span>
+                </GridActions>
+              </NextLink>
+            </Actions>
           </MenuList>
-          <Connection>
-            <ConnectionTexts>
-              <TelNumber>
-                <a href={`tel:${phoneValue}`}>{phoneText}</a>
-              </TelNumber>
-              <Hour>
-                До 21:00
-              </Hour>
-            </ConnectionTexts>
-            <Socials>
-              {/* <SocialItems /> */}
-            </Socials>
-            <ButtonWrapper>
-              {/* <OrderButton fullWidth={true} /> */}
-            </ButtonWrapper>
-          </Connection>
+          <Socials>
+            <SocialItems withText={true} />
+          </Socials>
+          <Languages />
         </ContentMenu>
       </MenuContent>
     </Wrapper>

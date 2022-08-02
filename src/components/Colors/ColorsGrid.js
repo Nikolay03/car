@@ -17,6 +17,7 @@ const SimpleGrid = styled.div`
 
 const Color = styled.div`
   border-radius: 100%;
+  border: 1px solid ${props => props.isWhite ? '#D7D7D7' : 'transparent'};
   cursor: pointer;
   width: 26px;
   height: 26px;
@@ -53,7 +54,8 @@ const ColorsGrid = ({
           return (
             <ColorContent key={id} isActive={isActive} >
               <Color
-                style={{ backgroundColor: 'red' }}
+                isWhite={i.hex.toLowerCase() === '#ffffff'}
+                style={{ backgroundColor: i.hex }}
                 onClick={() => onChangeFilter({ color: isActive ? null : id })} />
               <span>{name}</span>
             </ColorContent>

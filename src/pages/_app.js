@@ -30,11 +30,9 @@ Router.events.on('routeChangeError', progress.finish)
 function MyApp (props) {
   const { Component, pageProps } = props
   const categoryData = propOr({}, 'categoryData', props)
-  const userInfoData = propOr({}, 'userInfoData', props)
   return (
     <AppProviders
       categoryData={categoryData}
-      userInfoData={userInfoData}
     >
       <SWRConfig value={{ fetcher }}>
         <ThemeProvider>
@@ -55,18 +53,9 @@ MyApp.getInitialProps = async (appContext) => {
     }
   }).get(CATEGORY_CATEGORY_LIST)
 
-  const userInfoData = await axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    }
-  }).get(CATEGORY_CATEGORY_LIST)
-
   return {
     ...appProps,
-    categoryData: categoryData?.data && toCamelCase(categoryData?.data),
-    userInfoData: userInfoData?.data && toCamelCase(userInfoData?.data)
+    categoryData: categoryData?.data && toCamelCase(categoryData?.data)
   }
 }
 

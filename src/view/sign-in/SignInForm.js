@@ -85,7 +85,6 @@ const SignInForm = ({
       return mapResponseToFormError(error)
     })
   }
-
   return (
     <Form
       onSubmit={handleSubmit}

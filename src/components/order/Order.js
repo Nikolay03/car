@@ -11,6 +11,7 @@ import { validatePhoneNumber } from '~/utils/form'
 import OrderSelectField from '~/components/elements/Form/OrderSelectField'
 import Button from '~/components/elements/Buttons/Button'
 import { mediaQueries } from '~/constants/mediaQueries'
+import { useTranslate } from '~/utils/translate'
 
 const Row = styled.div``
 const AddressInfo = styled.div`
@@ -60,8 +61,11 @@ const SimpleGrid = styled.div`
 const Order = props => {
   const {
     onSubmit,
+    deliveryTypesResults,
     initialValues
   } = props
+
+  const { translateData } = useTranslate()
 
   return (
     <>
@@ -78,7 +82,7 @@ const Order = props => {
                     <Field
                       name={'deliveryType'}
                       component={OrderSelectField}
-                      dataProps={[{ id: 1, name: 'Самовывоз' }, { id: 2, name: 'Доставка' }]}
+                      dataProps={deliveryTypesResults.map(item => ({ id: item.id, name: translateData(item, 'name') }))}
                     />
                   </AddressInfo>
                 </RowUI>
@@ -87,7 +91,8 @@ const Order = props => {
                   <SimpleGrid>
                     <Field
                       defaultValue={'+998'}
-                      name={'secondPhone'}
+                      name={'clientPhone'}
+                      disabled={true}
                       label={'Номер телефона'}
                       component={TextField}
                       type={'tel'}
@@ -99,8 +104,8 @@ const Order = props => {
                       }}
                     />
                     <Field
-                      name={'secondFullname'}
-                      label={'Имя'}
+                      name={'clientName'}
+                      label={'Имя (Ф.И.О)'}
                       component={TextField}
                     />
                   </SimpleGrid>
@@ -124,9 +129,9 @@ const Order = props => {
                   <Title>Способ оплаты</Title>
                   <AddressInfo>
                     <Field
-                      name={'deliveryType'}
+                      name={'paymentType'}
                       component={OrderSelectField}
-                      dataProps={[{ id: 1, name: 'Самовывоз' }, { id: 2, name: 'Доставка' }]}
+                      dataProps={[{ id: 'cash', name: 'Наличные' }]}
                     />
                   </AddressInfo>
                 </RowUI>

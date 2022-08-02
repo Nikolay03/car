@@ -18,6 +18,7 @@ import FiltersBar from '~/components/elements/FiltersBar'
 import { mediaQueries } from '~/constants/mediaQueries'
 import MobileFilterFields from '~/view/Category/MobileFilterFields'
 import { getListData } from '~/utils/fetch'
+import Pagination from '~/components/Pagination'
 
 const Content = styled.div`
   grid: 1fr / min-content 1fr;
@@ -31,7 +32,14 @@ const Content = styled.div`
 
 const ProductsSide = styled.div`
   display: grid;
+  width: 100%;
+  grid-gap: 60px 0px;
   grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+`
+
+const Pages = styled('div')`
+  text-align: center;
+  margin-top: 40px;
 `
 
 const FilterSide = styled.div`
@@ -72,7 +80,7 @@ const CategoryGrid = ({ productDataList }) => {
 
   const { t, translateData } = useTranslate()
   const { categoryData } = useCategoryData()
-  const { results, isLoading } = productDataList
+  const { results, isLoading, count } = productDataList
   const { productCategoryData } = useCategoryData()
   const {
     results: resultsProductCategory
@@ -128,14 +136,20 @@ const CategoryGrid = ({ productDataList }) => {
               <EmptyProducts>Продукты не найдены</EmptyProducts>
             )
             : (
-              <ProductsSide>
-                {results.map((item) => {
-                  const id = item?.id
-                  return (
-                    <ProductCard key={id} data={item} priceBottom={true} />
-                  )
-                })}
-              </ProductsSide>
+              <div style={{ width: '100%' }}>
+                <ProductsSide>
+                  {results.map((item) => {
+                    const id = item?.id
+                    return (
+                      <ProductCard key={id} data={item} priceBottom={true} />
+                    )
+                  })}
+                </ProductsSide>
+                <Pages>
+                  <Pagination count={count} pageSize={10} />
+                </Pages>
+              </div>
+
             )
         }
       </Content>

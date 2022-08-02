@@ -8,10 +8,10 @@ import { useCartData } from '~/providers/CartProvider'
 
 const CartCount = styled('span')`
   position: absolute;
-  left: 15px;
-  top: -5px;
-  min-width: 20px;
-  min-height: 20px;
+  left: 16px;
+  top: 3px;
+  width: 8px;
+  height: 8px;
   font-weight: 600;
   font-size: 11px;
   padding: 2px;
@@ -19,14 +19,17 @@ const CartCount = styled('span')`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #fff;
-  border: 2px solid #6a82c2;
-  color: ${({ theme }) => theme.palette.primary};
+  background: #DF2626;
+  border: 1px solid white;
   border-radius: 30px;
 `
 
 const Relative = styled.div`
+  display: flex;
   position: relative;
+  & svg {
+    font-size:24px;
+  }
 `
 
 const BasketUi = props => {
@@ -42,7 +45,7 @@ const BasketUi = props => {
         <Basket color={'transparent'} />
         {!noProducts && (
           <CartCount>
-            {products.length}
+            {/* {products.length} */}
           </CartCount>
         )}
       </Relative>

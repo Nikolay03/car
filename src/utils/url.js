@@ -1,4 +1,4 @@
-import { pipe, split, map, fromPairs, toPairs, head, join, curry, compose, filter, pick, path } from 'ramda'
+import { pipe, split, map, fromPairs, toPairs, head, join, curry, compose, filter, pick, path, prop } from 'ramda'
 
 export function searchToQuery (search) {
   const urlParams = new URLSearchParams(search)
@@ -27,4 +27,8 @@ export const getParamsFromHistory = compose(parseParams, decodeURIComponent)
 
 export const getInitValuesFromHistory = curry((fields, router) =>
   compose(filter(Boolean), pick(fields), parseParams, path(['asPath']))(router)
+)
+
+export const getParamFormHistory = curry((key, history) =>
+  compose(prop(key), parseParams, path(['asPath']))(history)
 )

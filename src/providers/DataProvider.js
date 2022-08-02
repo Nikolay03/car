@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 const DataContext = createContext(null)
 
 export function DataProvider (props) {
-  const { children, categoryData, userInfoData } = props
+  const { children, categoryData } = props
 
   return (
-    <DataContext.Provider value={{ categoryData, userInfoData }}>
+    <DataContext.Provider value={{ categoryData }}>
       {children}
     </DataContext.Provider>
   )
