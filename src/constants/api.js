@@ -19,3 +19,6 @@ export const CATEGORY_CATEGORY_LIST = '/category/list/'
 export const CATEGORY_CATEGORY_DETAIL_LIST = '/category/list/%d/'
 
 export const CATEGORY_CATEGORY_COLOR_LIST = '/category/color/'
+
+export const ORDER = 'order'
+export const ORDER_CREATE = `/${ORDER}/create/`

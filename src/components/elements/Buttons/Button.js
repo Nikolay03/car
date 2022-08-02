@@ -1,6 +1,8 @@
 import React from 'react'
 import styled, { withTheme } from 'styled-components'
 
+import Loader from '~/components/PreLoader/Loader'
+
 const typeSizes = (size, theme) => {
   switch (size) {
     default:
@@ -61,6 +63,14 @@ const Wrap = styled('button')`
   ${({ themeType, theme }) => typeStyles(themeType, theme)}
 `
 
+const Loading = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & span {
+    margin-left: 10px;
+  }
+`
 // Component
 const Button = props => {
   const {
@@ -81,7 +91,7 @@ const Button = props => {
       styles={styles}
       themeType={themeType}
     >
-      {children}
+      {loading ? (<Loading><Loader size={0.5} /> <span>загрузка</span></Loading>) : children}
     </Wrap>
   )
 }

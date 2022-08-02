@@ -14,7 +14,7 @@ import { useAuth } from '~/providers/AuthProvider'
 import { useOrderData } from '~/components/order/OrderProvider'
 import { getListData } from '~/utils/fetch'
 import useCreate from '~/hooks/crud/useCreate'
-import { LOGIN } from '~/constants/api'
+import { LOGIN, ORDER_CREATE } from '~/constants/api'
 import { orderCreateSerializer } from '~/components/order/orderSerializer'
 import { mapResponseToFormError } from '~/utils/form'
 
@@ -33,7 +33,7 @@ const OrderContainer = () => {
   } = getListData(deliveryTypes)
 
   // MainSubmit
-  const orderCreate = useCreate(LOGIN)
+  const orderCreate = useCreate(ORDER_CREATE)
   const onSubmit = values => {
     orderCreate.create(orderCreateSerializer({ products, ...values }))
       .then(({ value }) => {
@@ -57,6 +57,7 @@ const OrderContainer = () => {
     <Order
       deliveryTypesResults={deliveryTypesResults}
       onSubmit={onSubmit}
+      orderCreate={orderCreate}
       initialValues={initialValues}
     />
   )

@@ -137,6 +137,7 @@ const SignInForm = ({
                       type={'button'}
                       onClick={handleSubmit}
                       disabled={isLoading || isUserLoading}
+                      loading={isLoading || isUserLoading}
                     >Войти</Button>
                   </ButtonWrapper>
                   {loginFailed &&

@@ -61,10 +61,11 @@ const SimpleGrid = styled.div`
 const Order = props => {
   const {
     onSubmit,
+    orderCreate,
     deliveryTypesResults,
     initialValues
   } = props
-
+  console.warn(orderCreate)
   const { translateData } = useTranslate()
 
   return (
@@ -140,6 +141,8 @@ const Order = props => {
                   <Button
                     styles={{ minWidth: '300px' }}
                     themeType={'dark'}
+                    loading={orderCreate.isLoading}
+                    disabled={orderCreate.isLoading}
                     type={'submit'}
                   >
                     Оформить заказ
