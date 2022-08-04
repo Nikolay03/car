@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { path, isEmpty, find, propEq, pathOr, prop } from 'ramda'
+import { path, isEmpty, find, propEq, pathOr } from 'ramda'
 import { Trash2 } from 'react-feather'
 
-import CartButton from '~/components/elements/Buttons/CartButton'
 import { setItemToCart } from '~/components/cart/storage'
 import { useCartData } from '~/providers/CartProvider'
 import { useTranslate } from '~/utils/translate'
 import numberFormat from '~/utils/numberFormat'
 import { mediaQueries } from '~/constants/mediaQueries'
+import CartSelect from '~/components/cart/CartSelect'
 
 const Row = styled.div`
   display: grid;
@@ -41,6 +41,7 @@ const Counter = styled('div')`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 103px;
 `
 const Buttons = styled.div`
   display: flex;
@@ -98,13 +99,9 @@ const ProductRow = styled('div')`
 const Cart = props => {
   const { onDelete, products = [] } = props
   const { translateData } = useTranslate()
-
   const [, dispatch] = useCartData()
-  const handleAdd = (product, value, mathValue) => {
-    return setItemToCart((+value + mathValue).toFixed(1), product, dispatch)
-  }
-  const handleRemove = (product, value, mathValue) => {
-    return setItemToCart((+value - mathValue).toFixed(1), product, dispatch)
+  const handleSetAmount = (product, value) => {
+    return setItemToCart(value.toFixed(1), product, dispatch)
   }
 
   return (
@@ -132,16 +129,7 @@ const Cart = props => {
               const colorName = translateData(color, 'name')
               const id = path(['id'], product)
               const price = +path(['price'], product) || 0
-              const amount = path(['amount'], product)
               const shortDescription = path(['shortDescription'], product)
-
-              const measurement = prop('measurement', product)
-              const measurementName = prop('name', measurement)
-
-              const isCustomWeight = measurementName &&
-              (measurementName.toLowerCase() === 'кг' || measurementName.toLowerCase() === 'kg')
-
-              const mathValue = isCustomWeight ? 0.2 : 1
 
               return (
                 <ProductRow key={key}>
@@ -167,11 +155,9 @@ const Cart = props => {
                           <Trash2 />
                         </DeleteButton>
                         <Counter>
-                          <CartButton
-                            amount={amount}
-                            onAdd={() => handleAdd(product, amount, mathValue)}
-                            onRemove={() => handleRemove(product, amount, mathValue)}
-                            measurement={measurementName}
+                          <CartSelect
+                            product={product}
+                            onAdd={handleSetAmount}
                           />
                         </Counter>
                       </Buttons>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { sprintf } from 'sprintf-js'
 
 import ProductDetailGrid from '~/view/Products/ProductsDetail/ProductDetailGrid'
 import Layout from '~/layout/Layout'
@@ -22,13 +23,25 @@ const ProductDetail = (props) => {
 }
 
 export async function getServerSideProps (ctx) {
+  const { params } = ctx
+  const { slug } = params
+  const productData = await fetchData(sprintf(API.PRODUCT_ITEM, slug), {
+    page_size: 10
+  })
   const productCategoryData = await fetchData(API.PRODUCT_CATEGORY_LIST, {
     page_size: 10
   })
 
+  const productSimilarData = await fetchData(API.PRODUCT_SIMILAR_LIST, {
+    page_size: 10,
+    product: slug
+  })
+
   return {
     props: {
-      productCategoryData
+      productData,
+      productCategoryData,
+      productSimilarData
     }
   }
 }

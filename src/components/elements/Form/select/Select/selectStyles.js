@@ -1,5 +1,6 @@
 export default (theme, params, type) => {
   const isTypeButton = type === 'button'
+  const isTypeSimple = type === 'simple'
   const controlButton = (provided, state) => ({
     ...provided,
     backgroundColor: 'transparent',
@@ -16,23 +17,42 @@ export default (theme, params, type) => {
       border: `1px solid ${theme.color.primary}`
     }
   })
+
+  const controlButtonSimple = (provided, state) => ({
+    ...provided,
+    backgroundColor: 'transparent',
+    boxShadow: null,
+    cursor: 'pointer',
+    borderRadius: '38px',
+    border: 'none',
+    transition: theme.transition.primary,
+    color: theme.color.primary,
+    fontWeight: 700,
+    height: params.height,
+    padding: '0px 0px 0px 40px',
+    '&:hover': {
+      border: 'none'
+    }
+  })
   return {
     control: isTypeButton
       ? controlButton
-      : (provided, state) => ({
-        ...provided,
-        // backgroundColor: state.isFocused ? 'white' : theme.background.secondary,
-        backgroundColor: theme.background.secondary,
-        boxShadow: null,
-        borderRadius: theme.borderRadius.primary,
-        borderColor: 'transparent',
-        transition: theme.transition.primary,
-        height: params.height,
-        minHeight: params.height ? 'unset' : '50px',
-        '&:hover': {
-          borderColor: 'transparent'
-        }
-      }),
+      : isTypeSimple
+        ? controlButtonSimple
+        : (provided, state) => ({
+          ...provided,
+          // backgroundColor: state.isFocused ? 'white' : theme.background.secondary,
+          backgroundColor: theme.background.secondary,
+          boxShadow: null,
+          borderRadius: theme.borderRadius.primary,
+          borderColor: 'transparent',
+          transition: theme.transition.primary,
+          height: params.height,
+          minHeight: params.height ? 'unset' : '50px',
+          '&:hover': {
+            borderColor: 'transparent'
+          }
+        }),
     indicatorSeparator: () => ({}),
     loadingIndicator: (provided, state) => ({
       ...provided,
@@ -55,8 +75,10 @@ export default (theme, params, type) => {
        !important`
           : theme.color.primary)
         : theme.color.primary,
-      padding: '0 12px',
+      padding: isTypeSimple ? '0px' : '0 12px',
       transition: 'color 300ms, transform 150ms',
+      width: isTypeSimple && '12px',
+      height: isTypeSimple && '12px',
       transform: params.menuIsOpen ? 'rotate(180deg)' : 'rotate(0)',
       '&:hover': {
         color: theme.color.primary
@@ -95,7 +117,13 @@ export default (theme, params, type) => {
       const isMultiWithValues = state.hasValue && state.isMulti
       return {
         ...provided,
-        padding: params.labelPrefix ? '0 20px 0px 170px' : isMultiWithValues ? '4px' : '0 20px'
+        padding: params.labelPrefix
+          ? '0 20px 0px 170px'
+          : isTypeSimple
+            ? '0px 0px 0px 30px'
+            : isMultiWithValues
+              ? '4px'
+              : '0 20px'
       }
     },
     singleValue: provided => ({
@@ -105,7 +133,7 @@ export default (theme, params, type) => {
     }),
     placeholder: provided => ({
       ...provided,
-      color: isTypeButton ? theme.color.primary : theme.color.secondary,
+      color: (isTypeButton || isTypeSimple) ? theme.color.primary : theme.color.secondary,
       fontSize: '16px',
       margin: '0'
     }),

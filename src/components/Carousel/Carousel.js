@@ -60,16 +60,17 @@ const ButtonGroup = ({ next, title, previous, ...rest }) => {
 }
 
 export default function Carousel (props) {
-  const { children, innerRef, title, ...restProps } = props
+  const { children, customButtonGroup = true, innerRef, title, ...restProps } = props
 
   return (
     <StyledCont>
       <MultiCarousel
-        customButtonGroup={ <ButtonGroup title={title} /> }
+        customButtonGroup={customButtonGroup && <ButtonGroup title={title} />}
         arrows={false}
         renderButtonGroupOutside={true}
         infinite={false}
         innerRef={innerRef}
+        ssr={true}
         partialVisible={true}
         {...restProps}
       >

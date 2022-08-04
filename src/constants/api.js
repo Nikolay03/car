@@ -8,7 +8,10 @@ export const BANNER_LIST = '/banner/'
 
 export const PRODUCT = 'product'
 export const PRODUCT_LIST = `/${PRODUCT}/list/`
+export const PRODUCT_ITEM = `/${PRODUCT}/list/%d/`
 export const PRODUCT_POPULAR_LIST = `/${PRODUCT}/popular/`
+
+export const PRODUCT_SIMILAR_LIST = `/${PRODUCT}/similar/`
 
 export const PRODUCT_CATEGORY_LIST = '/category/car-type/'
 

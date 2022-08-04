@@ -1,74 +1,39 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { find, propEq, propOr } from 'ramda'
-import { ChevronLeft } from 'react-feather'
 
 import { PRICE_TYPES } from '~/constants/constants'
+import UniversalStaticSelectField from '~/components/elements/Form/select/UniversalStaticSelectField'
 
 const Wrapper = styled.div`
-  position: relative;
-  & .open {
-    & svg {
-      transform: rotate(270deg);
-    }
+  * {
+    font-weight: 500 !important;
   }
 `
 
-const LanguageButton = styled.div`
-  cursor: pointer;
-  min-width: 103px;
-  display: grid;
-  grid: 1fr / min-content min-content;
-  align-items: center;
-  white-space: nowrap;
-  grid-gap: 9px;
-  & svg {
-    transform: rotate(90deg);
-  };
-`
-
-const MenuList = styled.div`
-  background-color: white;
-  position: absolute;
-  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
-  border-radius: 5px;
-  padding: 8px;
-  display: grid;
-  grid-gap: 10px;
-`
-
-const MenuItem = styled.div`
-  position: relative;
-  white-space: nowrap;
-`
-
 const CategorySort = ({ onChangeFilter, initialValues }) => {
-  const [open, setOpen] = useState(false)
   const initialValue = find(propEq('id', propOr('min', 'price', initialValues)))(PRICE_TYPES)
+  const [value, setValue] = useState(initialValue)
 
   return (
     <Wrapper>
-      <LanguageButton
-        onClick={() => setOpen(!open)}
-        className={open ? 'open' : ''}
-      >
-        <span>По цене ({initialValue.name})</span>
-        <ChevronLeft size={16} />
-      </LanguageButton>
-      {open && (
-        <MenuList>
-          {PRICE_TYPES.map(item => (
-            <MenuItem
-              key={item.id}
-              aria-label={`Change locale to ${item.id}`}
-              onClick={() => {
-                onChangeFilter({ price: item.id })
-              }}>
-              {item.name}
-            </MenuItem>
-          ))}
-        </MenuList>
-      )}
+      <UniversalStaticSelectField
+        isSearchable={false}
+        components={{
+          IndicatorSeparator: () => null,
+          ClearIndicator: () => null
+        }}
+        typeSelect={'simple'}
+        input={{
+          onChange: (val) => {
+            const id = val?.id || val
+            setValue(id)
+            onChangeFilter({ price: id })
+          },
+          value: value
+        }}
+        list={PRICE_TYPES}
+      />
     </Wrapper>
   )
 }

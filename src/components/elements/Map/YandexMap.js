@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 import React, { useState } from 'react'
-import { YMaps, Map, SearchControl, Placemark, GeolocationControl } from 'react-yandex-maps'
-import { drop, join, pipe, split } from 'ramda'
+import { YMaps, Map, SearchControl } from 'react-yandex-maps'
+import { drop, join, path, pipe, split } from 'ramda'
 import PropTypes from 'prop-types'
 
+import Pin from '~/icons/Pin'
 import Button from '~/components/elements/Buttons/Button'
 import Modal from '~/components/Modal'
 import { mediaQueries } from '~/constants/mediaQueries'
@@ -37,8 +38,16 @@ const MapWrapper = styled.div`
   border-radius: 8px;
   overflow: hidden;
   height: 600px;
-  @media ${mediaQueries.laptopS} {
-    height: 100%;
+`
+const PinUI = styled.div`
+  position:absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  & svg {
+    width: 30px;
+    height: 64px;
   }
 `
 const AddressBar = styled.div`
@@ -69,11 +78,11 @@ const YandexMap = (props) => {
 
   // const [center, setCenter] = useState(CENTER)
   const [loading, setLoading] = useState(false)
-  const [coords, setCoords] = useState(CENTER)
   const [map, setMap] = useState(CENTER)
 
-  const onSetAddress = (coords, yMap) => {
-    return yMap.geocode(coords)
+  const onAddress = (coords) => {
+    setLoading(true)
+    map.geocode(coords)
       .then((res) => {
         const firstGeoObject = res.geoObjects.get(0)
         const addressText = firstGeoObject.getAddressLine()
@@ -89,37 +98,39 @@ const YandexMap = (props) => {
           lon: coords[LON]
         }
         input.onChange(location)
+        setLoading(false)
       })
-  }
-
-  const onBoundsChange = (coords) => {
-    setLoading(true)
-    onSetAddress(coords, map)
-      .then(() => setLoading(false))
       .catch(() => setLoading(false))
   }
 
   const onCenter = (val) => {
-    const coords = val.get('coords')
+    const newCenter = path(['originalEvent', 'newCenter'], val)
     // setCenter(newCenter)
-    coords && setCoords(coords)
-    onBoundsChange(coords)
+    onAddress(newCenter)
   }
 
   return (
-
     <Modal
       open={open}
       width={'900px'}
       onClose={onToggle}
       title={'Указать на карте'}
       showHeader={false}
+      modalStyles={{
+        margin: 0,
+        top: '50%',
+        position: 'relative',
+        transform: 'translateY(-50%) !important'
+      }}
     >
       <Container>
         <ModalWrapper>
           <MapWrapper>
+            <PinUI>
+              <Pin />
+            </PinUI>
             {!(!addressValue && !loading) &&
-            <AddressBar loading={loading}>{loading ? '...' : addressValue}</AddressBar>}
+              <AddressBar loading={loading}>{loading ? '...' : addressValue}</AddressBar>}
             <Button
               styles={buttonStyles}
               onClick={onToggle}
@@ -128,25 +139,12 @@ const YandexMap = (props) => {
               <Map
                 height={'600px'}
                 width={'100%'}
-                onLoad={yandexMap => {
-                  setMap(yandexMap)
-                  onSetAddress(CENTER, yandexMap)
-                }}
-                onClick={onCenter}
+                onLoad={setMap}
                 modules={['geocode']}
-                // onBoundsChange={onCenter}
+                onBoundsChange={onCenter}
                 defaultState={{ center: CENTER, zoom: 12, controls: [] }}
               >
-                <GeolocationControl options={{
-                  float: 'left'
-                }} />
                 <SearchControl options={{ float: 'left' }} />
-                <Placemark
-                  geometry={(coords && coords[0] && coords)}
-                  options={{
-                    iconColor: 'red'
-                  }}
-                />
               </Map>
             </YMaps>
           </MapWrapper>

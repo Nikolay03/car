@@ -18,7 +18,7 @@ const options = [
 
 const SelectWrapper = styled('div')`
   position: relative;
-  min-width: ${({ typeSelect }) => typeSelect === 'button' ? '150px' : '350px'};
+  min-width: ${({ typeSelect }) => typeSelect === 'simple' ? '100%' : (typeSelect === 'button') ? '150px' : '350px'};
   ${({ error }) =>
     error &&
     css`
@@ -34,7 +34,6 @@ const Sub = styled('div')`
   display: flex;
   width: min-content;
   flex-wrap: nowrap;
-  z-index: 10;
   justify-content: center;
   align-items: center;
   min-width: 35px;
@@ -49,7 +48,6 @@ const Sub = styled('div')`
 `
 
 const Prefix = styled(Sub)`
-  left: 10px;
 `
 
 const noOptionsMessage = ({ inputValue }) => {

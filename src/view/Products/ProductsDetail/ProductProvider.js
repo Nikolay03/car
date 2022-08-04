@@ -5,7 +5,6 @@ const ProductContext = createContext(null)
 
 function ProductProvider (props) {
   const { children, ...restProps } = props
-
   return (
     <ProductContext.Provider value={restProps}>
       {children}

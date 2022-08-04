@@ -7,6 +7,7 @@ import { useTranslate } from '~/utils/translate'
 import FieldWrapper from '~/components/elements/Form/FieldWrapper'
 import UniversalStaticSelectField from '~/components/elements/Form/select/UniversalStaticSelectField'
 import Filter from '~/view/Category/Filter'
+import { PRICE_TYPES } from '~/constants/constants'
 
 const MobileFilterFields = ({
   initialValues,
@@ -26,13 +27,28 @@ const MobileFilterFields = ({
   const initialCar = Number(prop('car', initialValues)) || { id: null }
   const initialCarType = Number(prop('carType', initialValues)) || { id: null }
   const initialColor = Number(prop('color', initialValues)) || { id: null }
+  const initialSorting = Number(prop('price', initialValues)) || { id: null }
   return (
     <div>
       <FieldWrapper>
         <UniversalStaticSelectField
           input={{
             onChange: (val) => {
-              const id = val.id || val
+              const id = val?.id || val
+              onChangeFilter({ price: id })
+            },
+            value: initialSorting
+          }}
+          label={'Сортировка'}
+          placeholder={t('input_select_placeholder')}
+          list={PRICE_TYPES}
+        />
+      </FieldWrapper>
+      <FieldWrapper>
+        <UniversalStaticSelectField
+          input={{
+            onChange: (val) => {
+              const id = val?.id || val
               onChangeFilter({ carType: id, car: null })
             },
             value: initialCarType
@@ -51,7 +67,7 @@ const MobileFilterFields = ({
             <UniversalStaticSelectField
               input={{
                 onChange: (val) => {
-                  const id = val.id || val
+                  const id = val?.id || val
                   onChangeFilter({ car: id })
                 },
                 value: initialCar
@@ -67,7 +83,7 @@ const MobileFilterFields = ({
         <UniversalStaticSelectField
           input={{
             onChange: (val) => {
-              const id = val.id || val
+              const id = val?.id || val
               onChangeFilter({ color: id })
             },
             value: initialColor

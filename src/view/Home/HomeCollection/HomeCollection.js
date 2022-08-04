@@ -88,7 +88,7 @@ const HomeCollection = props => {
           typeSelect={'button'}
           input={{
             onChange: (val) => {
-              const id = val.id || val
+              const id = val?.id || val
               router.replace({
                 pathname: ROUTES.CATEGORY_URL,
                 query: { ...router.query, car: id }

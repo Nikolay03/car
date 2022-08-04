@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import NextLink from 'next/link'
 import { sprintf } from 'sprintf-js'
-import { Heart } from 'react-feather'
 
 import HeaderCategories from '~/components/Header/HeaderCategories'
 import { useTranslate } from '~/utils/translate'
@@ -87,7 +86,7 @@ const Menu = styled.ul`
 const RighrSide = styled.div`
   display: grid;
   grid-gap: 25px;
-  grid: 1fr / repeat(4, auto);
+  grid: 1fr / repeat(3, auto);
   align-items: center;
   & svg {
     cursor: pointer;
@@ -125,7 +124,7 @@ const DesktopMenu = props => {
       <RighrSide>
         <a href={'tel:+1-847-555-5555'}>(97) 733-30-06</a>
         <Languages />
-        <Heart />
+        {/* <Heart /> */}
         <BasketUi />
       </RighrSide>
     </Wrapper>

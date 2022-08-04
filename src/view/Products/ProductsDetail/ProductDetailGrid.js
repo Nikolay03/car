@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { find, flatten, includes, path, pipe, pluck, prop, propEq, repeat } from 'ramda'
+import { find, flatten, includes, pipe, pluck, prop, propEq, repeat } from 'ramda'
 
 import Container from '~/components/elements/Container'
 import ProductDetailGridImages from '~/view/Products/ProductsDetail/ProductDetailGridImages'
@@ -14,12 +14,13 @@ import CarTypesModal from '~/view/Products/ProductsDetail/ProductModal/CarTypesM
 import { useCategoryData } from '~/view/Category/CategoryProvider'
 import { getListData } from '~/utils/fetch'
 import Button from '~/components/elements/Buttons/Button'
-import CartButton from '~/components/elements/Buttons/CartButton'
 import useCartActions from '~/hooks/useCartActions'
 import { useCartData } from '~/providers/CartProvider'
 import { trimString } from '~/utils/trimString'
 import { useTranslate } from '~/utils/translate'
 import { mediaQueries } from '~/constants/mediaQueries'
+import { useProductData } from '~/view/Products/ProductsDetail/ProductProvider'
+import ProductSimular from '~/view/Products/ProductsDetail/ProductSimular'
 
 const ProductDetails = styled('div')`
   @media ${mediaQueries.tabletL} {
@@ -82,6 +83,7 @@ const Text = styled('p')`
 
 const TextMore = styled('button')`
     font-weight: 500;
+    margin-top: 15px;
     height: min-content;
     position: relative;
     &:after {
@@ -121,37 +123,33 @@ const ProductDetailGrid = ({ onChangeFilter, initialValues }) => {
 
   const { translateData } = useTranslate()
   const { productCategoryData } = useCategoryData()
+  const { productData } = useProductData()
   const [products] = useCartData()
   const {
-    onAddProductFirst,
-    onRemoveProduct,
-    onIncrementProduct,
-    onDecrementProduct
+    onAddProductFirst
   } = useCartActions()
   const {
     results
   } = getListData(productCategoryData)
-  const data = prop('data', {})
-  const id = prop('id', {})
-  const description = translateData(data, 'description')
+  const id = prop('id', productData)
+  const shortDescription = translateData(productData, 'shortDescription')
+  const name = translateData(productData, 'name')
 
   const cartProduct = find(propEq('id', id))(products)
-  const idChecker = path(['id'], cartProduct)
-  const amount = prop('amount', cartProduct)
-
   const category = initialValues?.category
+  const price = productData?.price
 
   return (
     <>
       <StyledContainer>
         <ProductDetailGridImages images={images} />
         <ProductDetails>
-          <PageTitle>Ultimate over-ear headphones</PageTitle>
+          <PageTitle>{name}</PageTitle>
           <SubTitle>
-          Чехлы из экокожи для Skoda Octavia A7 со складным креслом 2017-2020
+            {shortDescription}
           </SubTitle>
           <Price>
-            {numberFormat(30000, 'сум')}
+            {numberFormat(price, 'сум')}
           </Price>
 
           <Title
@@ -207,32 +205,22 @@ const ProductDetailGrid = ({ onChangeFilter, initialValues }) => {
             </MoreButton>
           </Center>
           <ButtonWrapper>
-            {id === idChecker
-              ? (
-                <CartButton
-                  amount={amount}
-                  onAdd={() => onIncrementProduct(data, amount)}
-                  onRemove={() => onDecrementProduct(data, amount)}
-                  onDelete={onRemoveProduct}
-                  withDelete={true}
-                  withSuffix={true}
-                />
-              )
-              : (
-                <Button
-                  onClick={() => onAddProductFirst(data)}
-                  fullWidth={true}
-                >
-                  В корзину
-                </Button>
-              )}
+            <Button
+              disabled={cartProduct}
+              themeType={'dark'}
+              onClick={() => onAddProductFirst(productData)}
+              fullWidth={true}
+            >
+              В корзину
+            </Button>
           </ButtonWrapper>
           <Text>
-            {trimString(description, 388)}
+            {trimString(shortDescription, 388)}
           </Text>
-          <TextMore>Читать описание</TextMore>
+          {(shortDescription?.length > 388) && (<TextMore>Читать описание</TextMore>)}
         </ProductDetails>
       </StyledContainer>
+      <ProductSimular />
       <CarTypesModal
         initialValues={initialValues}
         onChangeFilter={onChangeFilter}

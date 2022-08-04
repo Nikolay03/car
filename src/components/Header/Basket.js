@@ -34,7 +34,6 @@ const Relative = styled.div`
 
 const BasketUi = props => {
   const [products] = useCartData()
-
   const noProducts = isEmpty(products)
 
   return (

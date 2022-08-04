@@ -29,7 +29,11 @@ const typeStyles = (themeType, theme) => {
         background: theme.background.button,
         borderRadius: '38px',
         padding: '15px 30px',
-        border: `1px solid ${theme.color.primary}`
+        border: `1px solid ${theme.color.primary}`,
+        ':hover': {
+          background: '#757575',
+          border: '1px solid transparent'
+        }
       }
     default:
       return {
@@ -53,8 +57,8 @@ const Wrap = styled('button')`
   }
   &:disabled {
     cursor: not-allowed;
-    background: ${({ theme }) => theme.background.buttonDisabled};
-    color: ${({ theme }) => theme.color.secondary};
+    background: ${({ theme }) => theme.background.buttonDisabled} !important;
+    color: ${({ theme }) => theme.color.secondary} !important;
     border-color: transparent;
     transition: ${({ theme }) => `all ${theme.transition.medium}`};
   }
