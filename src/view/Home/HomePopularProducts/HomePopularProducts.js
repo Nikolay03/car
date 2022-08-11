@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
+import { pathOr } from 'ramda'
 
 import Carousel from '~/components/Carousel'
 import ProductCard from '~/components/ProductCard'
@@ -35,38 +36,30 @@ const responsive = {
 const HomePopularProducts = () => {
   const { translateData } = useTranslate()
   const { popularProductData } = useHomeData()
+  const carouselRef = useRef(null)
+
   const {
     results
   } = getListData(popularProductData)
-  const carouselRef = useRef(null)
+  const products = pathOr([], ['0', 'products'], results)
+  const firstObj = pathOr({}, ['0'], results)
+
+  const title = translateData(firstObj, 'title')
   return (
-    <>
-      <FullWidth>
-        {results.map((i, key) => {
-          if (key === 0) {
-            const id = i?.id
-            const products = i?.products
-            const title = translateData(i, 'title')
-            return (
-              <Carousel
-                key={id}
-                title={title}
-                innerRef={carouselRef}
-                responsive={responsive}
-              >
-                {products.map((item) => {
-                  const idCh = item?.id
-                  return (
-                    <ProductCard key={idCh} data={item} />
-                  )
-                })}
-              </Carousel>
-            )
-          }
-          return null
+    <FullWidth>
+      <Carousel
+        title={title}
+        innerRef={carouselRef}
+        responsive={responsive}
+      >
+        {products.map((item) => {
+          const idCh = item?.id
+          return (
+            <ProductCard key={idCh} data={item} />
+          )
         })}
-      </FullWidth>
-    </>
+      </Carousel>
+    </FullWidth>
   )
 }
 

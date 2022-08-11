@@ -32,7 +32,7 @@ const CarTypesSection = ({
   const {
     results
   } = getListData(productCategoryData)
-  const initialValue = prop('category', initialValues)
+  const initialValue = prop('carType', initialValues)
   return (
     <>
       {results.map(i => {
@@ -53,7 +53,7 @@ const CarTypesSection = ({
                   return (
                     <BorderBlock
                       isActive={isActive}
-                      onClick={() => onChangeFilter({ category: idCh })}
+                      onClick={() => onChangeFilter({ carType: idCh })}
                       key={idCh}
                       name={child.name}
                     />

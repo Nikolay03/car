@@ -31,7 +31,6 @@ export const mapResponseToFormError = data => {
     //   message: nonFieldError
     // })
   }
-
   return {
     ...restFieldErrors,
     [FORM_ERROR]: join(', ', nonFieldError)

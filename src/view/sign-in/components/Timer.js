@@ -11,6 +11,10 @@ const Time = styled.div`
   cursor: ${({ hover }) => hover ? 'pointer' : 'default'};
 `
 
+const SubmitSMS = styled.button`
+  color: #3A6DD0
+`
+
 const ONE = 1
 const EVERY_SEC = 1000
 
@@ -46,7 +50,7 @@ const Timer = props => {
     >
       {+count > 0
         ? getDuration(count)
-        : 'Отправить заново'}
+        : (<SubmitSMS>Отправить заново</SubmitSMS>)}
     </Time>
   )
 }

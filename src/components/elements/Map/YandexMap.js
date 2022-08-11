@@ -37,7 +37,7 @@ const MapWrapper = styled.div`
   width: 100%;
   border-radius: 8px;
   overflow: hidden;
-  height: 600px;
+  height: 100%;
 `
 const PinUI = styled.div`
   position:absolute;
@@ -112,7 +112,6 @@ const YandexMap = (props) => {
   return (
     <Modal
       open={open}
-      width={'900px'}
       onClose={onToggle}
       title={'Указать на карте'}
       showHeader={false}

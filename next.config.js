@@ -12,6 +12,9 @@ const config = {
     // ssr and displayName are configured by default
     styledComponents: true
   },
+  images: {
+    domains: ['api.chehol.uz']
+  },
   i18n: {
     locales: ['ru', 'uz', 'en'],
     defaultLocale: 'ru'

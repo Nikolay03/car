@@ -27,7 +27,7 @@ const OrderContainer = () => {
 
   // Const
   const router = useRouter()
-  const username = prop('username', user)
+  const username = prop('username', user) || '+998'
   const {
     results: deliveryTypesResults
   } = getListData(deliveryTypes)
@@ -35,7 +35,7 @@ const OrderContainer = () => {
   // MainSubmit
   const orderCreate = useCreate(ORDER_CREATE)
   const onSubmit = values => {
-    orderCreate.create(orderCreateSerializer({ products, ...values }))
+    return orderCreate.create(orderCreateSerializer({ products, ...values }))
       .then(({ value }) => {
         addToast('Заказ успешно создан', { appearance: 'success' })
         return router.replace({ pathname: ROUTE.HOME }, null, { shallow: true })

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { prop } from 'ramda'
 import { Form, Field } from 'react-final-form'
 import styled from 'styled-components'
 
@@ -42,15 +41,6 @@ const TimerText = styled('div')`
   line-height: 18px;
   color: #818591;
 `
-const RejectText = styled('div')`
-  font-size: 14px;
-  line-height: 18px;
-  color: ${({ theme }) => theme.palette.red};
-  font-weight: 500;
-  &:after{
-    content: ' *';
-  }
-`
 
 const ButtonWrapper = styled.div`
   margin-top: 20px;
@@ -59,16 +49,12 @@ const ButtonWrapper = styled.div`
   justify-content: end;
 `
 
-const SignInForm = ({
-  registerData,
-  loginData
-}) => {
+const SignInForm = () => {
   const { onAuth, onLogin, isLoading, isUserLoading } = useAuth()
   // useState
   const [openLogin, setOpenLogin] = useState(false)
 
   // Const
-  const loginFailed = prop('failed', loginData)
 
   // Loader
   const loader =
@@ -140,10 +126,6 @@ const SignInForm = ({
                       loading={isLoading || isUserLoading}
                     >Войти</Button>
                   </ButtonWrapper>
-                  {loginFailed &&
-                    <RejectText>
-                      Ошибка при вводе данных
-                    </RejectText>}
                 </>
               )}
               {(isLoading || isUserLoading) && loader}

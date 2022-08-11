@@ -6,8 +6,6 @@ import { pathOr, takeLast } from 'ramda'
 import Container from '~/components/elements/Container'
 import { CartInfo } from '~/components/cart'
 import OrderContainer from '~/components/order/OrderContainer'
-import SignInForm from '~/view/sign-in/SignInForm'
-import { useAuth } from '~/providers/AuthProvider'
 import { mediaQueries } from '~/constants/mediaQueries'
 
 const Wrap = styled(Container)`
@@ -70,8 +68,6 @@ const CartGrid = props => {
   const totalAmount = takeLast(1, totalAm)
   const totalPrice = takeLast(1, totalPr)
 
-  const { isAuth } = useAuth()
-
   return (
     <Wrap>
       <Row>
@@ -79,13 +75,7 @@ const CartGrid = props => {
       </Row>
       <SimpleGrid>
         <Col>
-          {isAuth
-            ? (
-              <OrderContainer />
-            )
-            : (
-              <SignInForm />
-            )}
+          <OrderContainer />
         </Col>
         <ColCart>
           <CartInfo
@@ -104,7 +94,6 @@ const CartGrid = props => {
 
 CartGrid.propTypes = {
   products: PropTypes.array,
-  token: PropTypes.object,
   onDelete: PropTypes.func
 }
 

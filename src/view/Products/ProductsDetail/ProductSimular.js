@@ -21,7 +21,6 @@ const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
     items: 3,
-    partialVisibilityGutter: 40,
     slidesToSlide: 1 // optional, default to 1.
   },
   tablet: {

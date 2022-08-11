@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { find, flatten, includes, pipe, pluck, prop, propEq, repeat } from 'ramda'
+import { find, includes, path, pipe, pluck, prop, propEq, repeat } from 'ramda'
 
 import Container from '~/components/elements/Container'
 import ProductDetailGridImages from '~/view/Products/ProductsDetail/ProductDetailGridImages'
@@ -56,7 +56,7 @@ const Colors = styled.div`
   display: grid;
   margin-top: 10px;
   grid-gap: 8px;
-  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
 `
 
 const AutoSize = styled.div`
@@ -123,7 +123,7 @@ const ProductDetailGrid = ({ onChangeFilter, initialValues }) => {
 
   const { translateData } = useTranslate()
   const { productCategoryData } = useCategoryData()
-  const { productData } = useProductData()
+  const { productDataList } = useProductData()
   const [products] = useCartData()
   const {
     onAddProductFirst
@@ -131,13 +131,16 @@ const ProductDetailGrid = ({ onChangeFilter, initialValues }) => {
   const {
     results
   } = getListData(productCategoryData)
-  const id = prop('id', productData)
-  const shortDescription = translateData(productData, 'shortDescription')
-  const name = translateData(productData, 'name')
+  const data = prop('data', productDataList)
+  const id = prop('id', data)
+  const shortDescription = translateData(data, 'shortDescription')
+  const name = translateData(data, 'name')
 
   const cartProduct = find(propEq('id', id))(products)
-  const category = initialValues?.category
-  const price = productData?.price
+  const carType = initialValues?.carType
+  const color = initialValues?.color
+  const price = data?.price
+  const otherColors = data?.otherColors || []
 
   return (
     <>
@@ -159,16 +162,26 @@ const ProductDetailGrid = ({ onChangeFilter, initialValues }) => {
               Цвет
           </Title>
           <Colors>
-            {flatten(repeat(images, 3)).map((i, index) => (
-              <ColorBorder key={index}>
-                <Image
-                  objectFit={'contain'}
-                  src={i.src}
-                  alt={'banner'}
-                  style={{ height: '70px', width: '70px', userSelect: 'none' }}
-                />
-              </ColorBorder>
-            ))}
+            {otherColors.map((i, index) => {
+              const image = path(['image', 'file'], i)
+              const colorId = path(['color', 'id'], i)
+              const isActive = Number(color) === colorId
+              return (
+                <ColorBorder
+                  isActive={isActive}
+                  onClick={() => onChangeFilter({ color: colorId })}
+                  key={index}
+                >
+                  <Image
+                    objectFit={'contain'}
+                    src={image}
+                    alt={'banner'}
+                    style={{ height: '70px', width: '70px', userSelect: 'none' }}
+                  />
+                </ColorBorder>
+              )
+            })
+            }
           </Colors>
 
           <Title
@@ -182,15 +195,15 @@ const ProductDetailGrid = ({ onChangeFilter, initialValues }) => {
               const children = i.children
               const hasIn = pipe(
                 pluck('id'),
-                includes(Number(category))
+                includes(Number(carType))
               )(children) || (key === 0)
               return hasIn && children.map(child => {
                 const idCh = child.id
-                const isActive = Number(category) === idCh
+                const isActive = Number(carType) === idCh
                 return (
                   <BorderBlock
                     isActive={isActive}
-                    onClick={() => onChangeFilter({ category: idCh })}
+                    onClick={() => onChangeFilter({ carType: idCh })}
                     key={idCh}
                     name={child.name}
                   />
@@ -208,7 +221,7 @@ const ProductDetailGrid = ({ onChangeFilter, initialValues }) => {
             <Button
               disabled={cartProduct}
               themeType={'dark'}
-              onClick={() => onAddProductFirst(productData)}
+              onClick={() => onAddProductFirst(data)}
               fullWidth={true}
             >
               В корзину

@@ -12,7 +12,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 
 import { LOGIN, ME, AUTH } from '~/constants/api'
-import { HOME, PROFILE_URL } from '~/constants/routes'
+import { PROFILE_URL } from '~/constants/routes'
 import { getToken, setToken, removeToken } from '~/utils/cookies'
 import transformResponse from '~/utils/transformResponse'
 import useCreate from '~/hooks/crud/useCreate'
@@ -84,7 +84,6 @@ function AuthProvider (props) {
         const token = prop('token', resp)
         setHeadersAuth(token)
         setToken(token)
-
         return token
       })
       .then(() => {
@@ -101,12 +100,9 @@ function AuthProvider (props) {
   }, [])
 
   const onLogout = useCallback(() => {
-    return router.replace(HOME)
-      .then(() => {
-        removeToken()
-        setUser(null)
-        removeHeadersAuth()
-      })
+    removeToken()
+    setUser(null)
+    removeHeadersAuth()
   }, [])
 
   const onUpdateUser = useCallback((data) => {

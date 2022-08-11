@@ -64,6 +64,13 @@ const Prefix = styled('b')`
   transition: 0.2s ease all;
 `
 
+const Suffix = styled('div')`
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+`
+
 const TextField = props => {
   const {
     name,
@@ -79,6 +86,7 @@ const TextField = props => {
     error,
     meta,
     prefix,
+    suffix,
     input,
     ...rest
   } = props
@@ -100,47 +108,53 @@ const TextField = props => {
 
   // Render
   return (
-    <TextFieldWrap
-      fullWidth={fullWidth}
-    >
-      <Input
-        type={type || 'text'}
-        {...rest}
-        {...input}
-        name={name}
-        defaultValue={defaultValue}
-        onBlur={ev => setIsFocus(!!ev.target.value || !!prefix)}
-        onChange={onChange || prop('onChange', input)}
-        onFocus={() => {
-          setIsFocus(true)
-          if (onFocus) {
-            onFocus()
-          }
-        }}
-        isFocus={isFocus}
-        disabled={disabled}
-        maxLength={maxLength}
-        prefix={prefix}
-        max={max}
-        id={randomNumber}
-      />
-      <Label
-        error={inputError}
-        isFocus={isFocus}
-        htmlFor={randomNumber}
+    <div>
+      <TextFieldWrap
+        fullWidth={fullWidth}
       >
-        {label}
-      </Label>
+        <Input
+          type={type || 'text'}
+          {...rest}
+          {...input}
+          name={name}
+          defaultValue={defaultValue}
+          onBlur={ev => setIsFocus(!!ev.target.value || !!prefix)}
+          onChange={onChange || prop('onChange', input)}
+          onFocus={() => {
+            setIsFocus(true)
+            if (onFocus) {
+              onFocus()
+            }
+          }}
+          isFocus={isFocus}
+          disabled={disabled}
+          maxLength={maxLength}
+          prefix={prefix}
+          max={max}
+          id={randomNumber}
+        />
+        <Label
+          error={inputError}
+          isFocus={isFocus}
+          htmlFor={randomNumber}
+        >
+          {label}
+        </Label>
+        {prefix &&
+      <Prefix>
+        {prefix}
+      </Prefix>}
+        {suffix &&
+      <Suffix>
+        {suffix}
+      </Suffix>}
+      </TextFieldWrap>
       {inputError && (
         <InputError>
           {inputError}
         </InputError>
       )}
-      {prefix &&
-      <Prefix>
-        {prefix}
-      </Prefix>}
-    </TextFieldWrap>
+    </div>
   )
 }
 

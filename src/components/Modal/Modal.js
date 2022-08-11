@@ -70,14 +70,22 @@ const ModalContent = styled('div')`
   pointer-events: auto;
 `
 const ModalHeader = styled('div')`
-  padding: 40px 25px 0;
+  padding: 30px 25px 0;
   position: relative;
 `
 const ModalTitle = styled('div')`
   font-size: 20px;
+  text-align: center;
   font-weight: 500;
-  width: calc(100% - 40px);
 `
+
+const SubTitle = styled.p`
+  text-align: center;
+  margin-top: 15px;
+  padding: 0 25px;
+  color: ${({ theme }) => theme.color.secondary};
+`
+
 const Close = styled('div')`
   align-items: center;
   background-color: transparent;
@@ -120,6 +128,7 @@ const Modal = props => {
     fadeDuration,
     showCloseIcon,
     showHeader,
+    subTitle,
     zIndex,
     modalStyles
   } = props
@@ -156,6 +165,9 @@ const Modal = props => {
                     </Close>
                   )}
                 </ModalHeader>
+              )}
+              {subTitle && (
+                <SubTitle>{subTitle}</SubTitle>
               )}
               <ModalBody>{children}</ModalBody>
             </ModalContent>

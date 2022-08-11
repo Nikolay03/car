@@ -8,12 +8,17 @@ import * as API from '~/constants/api'
 import { fetchData } from '~/utils/fetch'
 import ProductProvider from '~/view/Products/ProductsDetail/ProductProvider'
 import CategoryProvider from '~/view/Category/CategoryProvider'
+import useRequest from '~/hooks/api/useRequest'
 
-const ProductDetail = (props) => {
-  const filterActions = withFilter({ fields: ['category'] })
+const ProductDetail = ({ api, productData, ...props }) => {
+  const filterActions = withFilter({ fields: ['color', 'carType'] })
+  const productDataList = useRequest(api, {
+    disableLocale: true,
+    initialData: productData
+  })
   return (
     <Layout>
-      <ProductProvider {...props}>
+      <ProductProvider productDataList={productDataList} {...props}>
         <CategoryProvider {...props}>
           <ProductDetailGrid {...filterActions} {...props} />
         </CategoryProvider>
@@ -23,10 +28,16 @@ const ProductDetail = (props) => {
 }
 
 export async function getServerSideProps (ctx) {
-  const { params } = ctx
+  const {
+    // query,
+    params
+  } = ctx
   const { slug } = params
-  const productData = await fetchData(sprintf(API.PRODUCT_ITEM, slug), {
+  const api = sprintf(API.PRODUCT_ITEM, slug)
+  const productData = await fetchData(api, {
     page_size: 10
+    // car_type: prop('carType', query),
+    // color: prop('color', query)
   })
   const productCategoryData = await fetchData(API.PRODUCT_CATEGORY_LIST, {
     page_size: 10
@@ -39,6 +50,7 @@ export async function getServerSideProps (ctx) {
 
   return {
     props: {
+      api,
       productData,
       productCategoryData,
       productSimilarData
