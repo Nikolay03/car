@@ -7,7 +7,6 @@ import withFilter from '~/hooks/withFilter'
 import * as API from '~/constants/api'
 import { fetchData } from '~/utils/fetch'
 import ProductProvider from '~/view/Products/ProductsDetail/ProductProvider'
-import CategoryProvider from '~/view/Category/CategoryProvider'
 import useRequest from '~/hooks/api/useRequest'
 
 const ProductDetail = ({ api, productData, ...props }) => {
@@ -19,9 +18,7 @@ const ProductDetail = ({ api, productData, ...props }) => {
   return (
     <Layout>
       <ProductProvider productDataList={productDataList} {...props}>
-        <CategoryProvider {...props}>
-          <ProductDetailGrid {...filterActions} {...props} />
-        </CategoryProvider>
+        <ProductDetailGrid {...filterActions} {...props} />
       </ProductProvider>
     </Layout>
   )
@@ -39,9 +36,6 @@ export async function getServerSideProps (ctx) {
     // car_type: prop('carType', query),
     // color: prop('color', query)
   })
-  const productCategoryData = await fetchData(API.PRODUCT_CATEGORY_LIST, {
-    page_size: 10
-  })
 
   const productSimilarData = await fetchData(API.PRODUCT_SIMILAR_LIST, {
     page_size: 10,
@@ -52,7 +46,6 @@ export async function getServerSideProps (ctx) {
     props: {
       api,
       productData,
-      productCategoryData,
       productSimilarData
     }
   }

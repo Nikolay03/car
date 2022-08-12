@@ -12,7 +12,7 @@ const Container = styled.div`
   }
 `
 
-const CarTypesModal = ({ initialValues, onChangeFilter, open, onToggle }) => {
+const CarTypesModal = ({ initialValues, onChangeFilter, open, onToggle, groupCarTypes }) => {
   return (
     <Modal
       open={open}
@@ -25,6 +25,7 @@ const CarTypesModal = ({ initialValues, onChangeFilter, open, onToggle }) => {
         <CarTypesSection
           initialValues={initialValues}
           onChangeFilter={onChangeFilter}
+          groupCarTypes={groupCarTypes}
         />
       </Container>
     </Modal>

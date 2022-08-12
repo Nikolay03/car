@@ -2,8 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { includes, pipe, pluck, prop } from 'ramda'
 
-import { useCategoryData } from '~/view/Category/CategoryProvider'
-import { getListData } from '~/utils/fetch'
 import Accordion from '~/components/Accordion'
 import BorderBlock from '~/components/elements/BorderBlock'
 import CategoryBlock from '~/view/Category/CategoryBlock'
@@ -26,26 +24,21 @@ const CategoryBlockStyled = styled(CategoryBlock)`
 
 const CarTypesSection = ({
   initialValues,
-  onChangeFilter
+  onChangeFilter,
+  groupCarTypes
 }) => {
-  const { productCategoryData } = useCategoryData()
-  const {
-    results
-  } = getListData(productCategoryData)
   const initialValue = prop('carType', initialValues)
   return (
     <>
-      {results.map(i => {
-        const id = i.id
-        const name = i.name
-        const children = i.children
+      {groupCarTypes.map((i, key) => {
+        const [title, children] = i
         const hasIn = pipe(
           pluck('id'),
           includes(Number(initialValue))
         )(children)
         return (
-          <CategoryBlockStyled key={id}>
-            <Accordion title={name} array={children} initialValue={hasIn}>
+          <CategoryBlockStyled key={key}>
+            <Accordion title={title} array={children} initialValue={hasIn}>
               <AutoSize>
                 {children.map(child => {
                   const idCh = child.id

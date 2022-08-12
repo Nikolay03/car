@@ -4,6 +4,7 @@ import { range } from 'ramda'
 
 const SkeletCardBlock = styled.div`
   display: grid;
+  width: 100%;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   flex-wrap: wrap;
   margin-bottom: 30px;

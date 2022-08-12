@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { find, includes, path, pipe, pluck, prop, propEq, repeat } from 'ramda'
+import { find, groupBy, includes, path, pipe, pluck, prop, propEq, repeat, toPairs } from 'ramda'
 
 import Container from '~/components/elements/Container'
 import ProductDetailGridImages from '~/view/Products/ProductsDetail/ProductDetailGridImages'
@@ -11,8 +11,6 @@ import Image from '~/components/Images/Image'
 import BorderBlock from '~/components/elements/BorderBlock'
 import MoreButton from '~/components/elements/Buttons/MoreButton'
 import CarTypesModal from '~/view/Products/ProductsDetail/ProductModal/CarTypesModal'
-import { useCategoryData } from '~/view/Category/CategoryProvider'
-import { getListData } from '~/utils/fetch'
 import Button from '~/components/elements/Buttons/Button'
 import useCartActions from '~/hooks/useCartActions'
 import { useCartData } from '~/providers/CartProvider'
@@ -122,15 +120,11 @@ const ProductDetailGrid = ({ onChangeFilter, initialValues }) => {
   const onOpenToggle = () => setOpen(!open)
 
   const { translateData } = useTranslate()
-  const { productCategoryData } = useCategoryData()
   const { productDataList } = useProductData()
   const [products] = useCartData()
   const {
     onAddProductFirst
   } = useCartActions()
-  const {
-    results
-  } = getListData(productCategoryData)
   const data = prop('data', productDataList)
   const id = prop('id', data)
   const shortDescription = translateData(data, 'shortDescription')
@@ -141,7 +135,11 @@ const ProductDetailGrid = ({ onChangeFilter, initialValues }) => {
   const color = initialValues?.color
   const price = data?.price
   const otherColors = data?.otherColors || []
-
+  const otherCarTypes = data?.otherCarTypes || []
+  const groupCarTypes = pipe(
+    groupBy(path(['parent', 'name'])),
+    toPairs
+  )(otherCarTypes)
   return (
     <>
       <StyledContainer>
@@ -191,8 +189,8 @@ const ProductDetailGrid = ({ onChangeFilter, initialValues }) => {
           Размер под авто
           </Title>
           <AutoSize>
-            {results.map((i, key) => {
-              const children = i.children
+            {groupCarTypes.map((i, key) => {
+              const [, children] = i
               const hasIn = pipe(
                 pluck('id'),
                 includes(Number(carType))
@@ -238,6 +236,7 @@ const ProductDetailGrid = ({ onChangeFilter, initialValues }) => {
         initialValues={initialValues}
         onChangeFilter={onChangeFilter}
         open={open}
+        groupCarTypes={groupCarTypes}
         onToggle={onOpenToggle}
       />
     </>
