@@ -36,7 +36,7 @@ const SocialItems = (props) => {
           </span>}
         </Grid>
       </Link>
-      <Link href={'https://www.instagram.com/1'} {...props}>
+      <Link href={'https://www.instagram.com/chehol.uz/'} {...props}>
         <Grid withText={props.withText}>
           <Instagram />
           {props.withText && <span>

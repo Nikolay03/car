@@ -108,7 +108,6 @@ const SignInForm = () => {
                     maxLength={5}
                     disabled={isLoading}
                   />
-
                   <TimerWrap>
                     <TimerText>Мы отправили SMS с кодом на ваш номер</TimerText>
                     <Timer

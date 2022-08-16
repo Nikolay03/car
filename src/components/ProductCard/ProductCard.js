@@ -91,7 +91,7 @@ const ProductCard = ({ data, priceBottom }) => {
               <Description>{description}</Description>
             </Hover>
           </Link>
-          {priceBottom && <SubTitle>{price} сум</SubTitle>}
+          {priceBottom && <SubTitle>{numberFormat(price)} сум</SubTitle>}
         </div>
       </Item>
     </ItemWrapper>

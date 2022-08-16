@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { find, groupBy, includes, path, pipe, pluck, prop, propEq, repeat, toPairs } from 'ramda'
+import { find, groupBy, includes, path, pathEq, pipe, pluck, prop, propEq, propOr, toPairs } from 'ramda'
 
 import Container from '~/components/elements/Container'
 import ProductDetailGridImages from '~/view/Products/ProductsDetail/ProductDetailGridImages'
@@ -113,8 +113,6 @@ const ColorBorder = styled.div`
   border: 1px solid ${({ theme, isActive }) => isActive ? theme.palette.primary : 'transparent'};
 `
 
-const images = repeat({ src: '/assets/armchair.png', alt: 'product' }, 5)
-
 const ProductDetailGrid = ({ onChangeFilter, initialValues }) => {
   const [open, setOpen] = useState(false)
   const onOpenToggle = () => setOpen(!open)
@@ -126,24 +124,26 @@ const ProductDetailGrid = ({ onChangeFilter, initialValues }) => {
     onAddProductFirst
   } = useCartActions()
   const data = prop('data', productDataList)
+  const isLoading = prop('isLoading', productDataList)
   const id = prop('id', data)
   const shortDescription = translateData(data, 'shortDescription')
   const name = translateData(data, 'name')
-
   const cartProduct = find(propEq('id', id))(products)
   const carType = initialValues?.carType
-  const color = initialValues?.color
+  const color = Number(initialValues?.color || id)
   const price = data?.price
-  const otherColors = data?.otherColors || []
+  const otherColors = data?.otherColors
   const otherCarTypes = data?.otherCarTypes || []
+  const selectedProduct = find(pathEq(['color', 'id'], color))(otherColors)
   const groupCarTypes = pipe(
     groupBy(path(['parent', 'name'])),
     toPairs
   )(otherCarTypes)
+  const images = propOr([], 'images', selectedProduct)
   return (
     <>
       <StyledContainer>
-        <ProductDetailGridImages images={images} />
+        <ProductDetailGridImages images={images} isLoading={isLoading} />
         <ProductDetails>
           <PageTitle>{name}</PageTitle>
           <SubTitle>
@@ -161,7 +161,7 @@ const ProductDetailGrid = ({ onChangeFilter, initialValues }) => {
           </Title>
           <Colors>
             {otherColors.map((i, index) => {
-              const image = path(['image', 'file'], i)
+              const image = path(['image', 'image', 'file'], i)
               const colorId = path(['color', 'id'], i)
               const isActive = Number(color) === colorId
               return (

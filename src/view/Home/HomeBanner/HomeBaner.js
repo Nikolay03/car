@@ -1,6 +1,8 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
 import MultiCarousel from 'react-multi-carousel'
+import NextLink from 'next/link'
+import { sprintf } from 'sprintf-js'
 
 import Title from '~/components/elements/Title'
 import Container from '~/components/elements/Container'
@@ -9,6 +11,7 @@ import { useHomeData } from '~/view/Home/HomeProvider'
 import { getListData } from '~/utils/fetch'
 import { useTranslate } from '~/utils/translate'
 import CarouselDot from '~/components/Carousel/CarouselDot'
+import { CATEGORY_ITEM_URL } from '~/constants/routes'
 
 const StyledCont = styled(Container)`
   padding: 0px 15px;
@@ -79,6 +82,7 @@ const HomeBanner = props => {
       >
         {results.map(banner => {
           const id = banner.id
+          const category = banner?.category?.id || 1
           const title = translateData(banner, 'title')
           const description = translateData(banner, 'description')
           return (
@@ -88,9 +92,14 @@ const HomeBanner = props => {
                   {title}
                 </Title>
                 <p>{description}</p>
-                <Button themeType={'lighten'}>
-                  {t('search')}
-                </Button>
+                <NextLink href={sprintf(CATEGORY_ITEM_URL, category)}>
+                  <Button
+                    type={'button'}
+                    themeType={'lighten'}
+                  >
+                    {t('search')}
+                  </Button>
+                </NextLink>
               </Content>
             </FullWidth>
           )

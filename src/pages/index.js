@@ -44,8 +44,7 @@ export async function getServerSideProps (ctx) {
   })
 
   const productData = await fetchData(API.PRODUCT_LIST, {
-    page_size: 10,
-    ordering: 'price'
+    page_size: 10
   })
 
   const popularProductData = await fetchData(API.PRODUCT_POPULAR_LIST, {

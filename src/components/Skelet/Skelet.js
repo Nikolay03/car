@@ -120,13 +120,12 @@ const SkeletButton = styled.div`
     }
 `
 const Skelet = (props) => {
-  // eslint-disable-next-line react/prop-types
-  const { count, col } = props
+  const { count } = props
   const number = range(1, count)
   return (
     <SkeletCardBlock>
       {number.map((num, key) => (
-        <SkeletCard key={key} col={col}>
+        <SkeletCard key={key}>
           <SkeletImage />
           <SkeletPriceBlock>
             <SkeletPrice />

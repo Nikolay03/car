@@ -199,7 +199,7 @@ const MobileMenu = () => {
   return (
     <Wrapper>
       <Grid>
-        <a href={'tel:+1-847-555-5555'}>(97) 733-30-06</a>
+        <a href={'tel:+998998884888'}>+998 (99) 888 48 88</a>
         <IconTrigger onClick={onMenuOpen}>
           <Menu />
         </IconTrigger>
