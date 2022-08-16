@@ -2,11 +2,11 @@ import { range } from 'ramda'
 
 export const PRICE_TYPES = [
   {
-    id: 'max',
+    id: 'price',
     name: 'По цене (Самые дорогие)'
   },
   {
-    id: 'min',
+    id: '-price',
     name: 'По цене (Самые дешевые)'
   }
 ]

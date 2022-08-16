@@ -92,7 +92,7 @@ const CategoryGrid = ({ productDataList }) => {
     find(propEq('id', Number(query?.car)))
   )(resultsProductCategory)
   const name = translateData(categoryData, 'name') || t('product_for', { type: prop('name', carNameTitle) })
-  const filterActions = withFilter({ fields: ['price', 'color', 'car', 'category', 'carType'] })
+  const filterActions = withFilter({ fields: ['ordering', 'color', 'car', 'category', 'carType'] })
   const filters = (
     <>
       <MobileFilterFields {...filterActions} />

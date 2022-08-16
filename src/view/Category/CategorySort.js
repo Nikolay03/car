@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 `
 
 const CategorySort = ({ onChangeFilter, initialValues }) => {
-  const initialValue = find(propEq('id', propOr('min', 'price', initialValues)))(PRICE_TYPES)
+  const initialValue = find(propEq('id', propOr(null, 'ordering', initialValues)))(PRICE_TYPES)
   const [value, setValue] = useState(initialValue)
 
   return (
@@ -23,6 +23,7 @@ const CategorySort = ({ onChangeFilter, initialValues }) => {
           IndicatorSeparator: () => null,
           ClearIndicator: () => null
         }}
+        placeholder={'Сортировка'}
         typeSelect={'simple'}
         input={{
           onChange: (val) => {
@@ -30,7 +31,7 @@ const CategorySort = ({ onChangeFilter, initialValues }) => {
             setValue(id)
             onChangeFilter({ price: id })
           },
-          value: value
+          value: { id: value }
         }}
         list={PRICE_TYPES}
       />
