@@ -28,7 +28,7 @@ const Grid = styled.div`
 const SocialItems = (props) => {
   return (
     <>
-      <Link href={'https://t.me/1'} {...props}>
+      <Link href={'https://t.me/cheholuz/'} {...props}>
         <Grid withText={props.withText}>
           <Telegram />
           {props.withText && <span>

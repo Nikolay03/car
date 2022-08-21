@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { Filter, Filter as FilterIcon, X as CloseIcon } from 'react-feather'
+import { Filter, X as CloseIcon } from 'react-feather'
 import PropTypes from 'prop-types'
-import { filter, isEmpty } from 'ramda'
 import { Portal } from 'react-portal'
 
 import FabButton from '~/components/elements/FabButton'
 import { mediaQueries } from '~/constants/mediaQueries'
+import Button from '~/components/elements/Buttons/Button'
 
 const WithIcon = styled('div')`
   display: flex;
@@ -83,31 +83,15 @@ const IconWrap = styled('span')`
     display: flex;
   }
 `
-const Dot = styled('span')`
-  display: ${({ isActive }) => isActive ? 'block' : 'none'};
-  position: absolute;
-  left: -8px;
-  top: 50%;
-  border-radius: 50%;
-  transform: translateY(-50%);
-  width: 6px;
-  height: 6px;
-  background: ${({ theme }) => theme.palette.red};
-`
-
 const FiltersBar = props => {
   const {
     children,
     isOpen,
     setOpen,
-    withOutButton,
-    initialValues
+    withOutButton
   } = props
 
   // Redirects
-  const filteredInitialValues = initialValues && filter(item => !!item, initialValues)
-  const isActive = filteredInitialValues && !isEmpty(filteredInitialValues)
-
   // Switch functions
   const onMenuOpen = () => setOpen(true)
   const onMenuClose = () => setOpen(false)
@@ -126,14 +110,7 @@ const FiltersBar = props => {
     <>
       {!withOutButton &&
       <IconWrap>
-        <Dot
-          isActive={isActive}
-        />
-        <FilterIcon
-          color={'#000'}
-          size={24}
-          onClick={onMenuOpen}
-        />
+        <Button onClick={onMenuOpen}>Фильтры</Button>
       </IconWrap>}
       {isOpen && <Portal>
         <MenuContent

@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { find, propEq, propOr } from 'ramda'
+import { propOr } from 'ramda'
 
 import { PRICE_TYPES } from '~/constants/constants'
 import UniversalStaticSelectField from '~/components/elements/Form/select/UniversalStaticSelectField'
@@ -12,9 +12,7 @@ const Wrapper = styled.div`
 `
 
 const CategorySort = ({ onChangeFilter, initialValues }) => {
-  const initialValue = find(propEq('id', propOr(null, 'ordering', initialValues)))(PRICE_TYPES)
-  const [value, setValue] = useState(initialValue)
-
+  const initialValue = propOr(null, 'ordering', initialValues)
   return (
     <Wrapper>
       <UniversalStaticSelectField
@@ -28,10 +26,9 @@ const CategorySort = ({ onChangeFilter, initialValues }) => {
         input={{
           onChange: (val) => {
             const id = val?.id || val
-            setValue(id)
-            onChangeFilter({ price: id })
+            onChangeFilter({ ordering: id })
           },
-          value: { id: value }
+          value: { id: initialValue }
         }}
         list={PRICE_TYPES}
       />

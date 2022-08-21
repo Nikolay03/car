@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { find, flatten, isEmpty, map, pipe, prop, propEq } from 'ramda'
+import { find, flatten, isEmpty, map, pipe, prop, propEq, propOr } from 'ramda'
 import { useRouter } from 'next/router'
 
 import Filter from '~/view/Category/Filter'
@@ -19,6 +19,8 @@ import { mediaQueries } from '~/constants/mediaQueries'
 import MobileFilterFields from '~/view/Category/MobileFilterFields'
 import { getListData } from '~/utils/fetch'
 import Pagination from '~/components/Pagination'
+import FieldWrapper from '~/components/elements/Form/FieldWrapper'
+import UniversalStaticSelectField from '~/components/elements/Form/select/UniversalStaticSelectField'
 
 const Content = styled.div`
   grid: 1fr / min-content 1fr;
@@ -75,6 +77,17 @@ const EmptyProducts = styled('div')`
   width: 100%;
 `
 
+const Mobile = styled.div`
+  width: 100%;
+  display: none;
+  & > div{
+    width: 100%;
+  };
+  @media ${mediaQueries.tabletL} {
+    display: block;
+  }
+`
+
 const CategoryGrid = ({ productDataList }) => {
   const [openFilter, setOpenFilter] = useState(false)
 
@@ -93,6 +106,12 @@ const CategoryGrid = ({ productDataList }) => {
   )(resultsProductCategory)
   const name = translateData(categoryData, 'name') || t('product_for', { type: prop('name', carNameTitle) })
   const filterActions = withFilter({ fields: ['ordering', 'color', 'car', 'category', 'carType'] })
+
+  const initialCarType = Number(propOr(null, 'carType', filterActions.initialValues))
+  const initialCar = Number(propOr(null, 'car', filterActions.initialValues))
+  const {
+    results: categoryResults
+  } = getListData(productCategoryData)
   const filters = (
     <>
       <MobileFilterFields {...filterActions} />
@@ -113,6 +132,45 @@ const CategoryGrid = ({ productDataList }) => {
           <CategorySort {...filterActions} />
         </ForDesctop>
       </PageHeader>
+      <Mobile>
+        <>
+          <FieldWrapper>
+            <UniversalStaticSelectField
+              input={{
+                onChange: (val) => {
+                  const id = val?.id || val
+                  filterActions.onChangeFilter({ carType: id, car: null })
+                },
+                value: { id: initialCarType }
+              }}
+              label={'Выбирите Тип авто'}
+              placeholder={t('input_select_placeholder')}
+              list={categoryResults}
+            />
+          </FieldWrapper>
+          {categoryResults.map(i => {
+            const id = i.id
+            const isActive = i.id === initialCarType
+            const children = i.children
+            return isActive && (
+              <FieldWrapper key={id}>
+                <UniversalStaticSelectField
+                  input={{
+                    onChange: (val) => {
+                      const id = val?.id || val
+                      filterActions.onChangeFilter({ car: id })
+                    },
+                    value: { id: initialCar }
+                  }}
+                  label={'Модель'}
+                  placeholder={t('input_select_placeholder')}
+                  list={children}
+                />
+              </FieldWrapper>
+            )
+          })}
+        </>
+      </Mobile>
       <Content>
         <FilterSide>
           <CategoryBlock>

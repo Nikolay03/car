@@ -48,7 +48,7 @@ export default (theme, params, type) => {
           borderColor: 'transparent',
           transition: theme.transition.primary,
           height: params.height,
-          minHeight: params.height ? 'unset' : '50px',
+          minHeight: params.height ? 'unset' : '40px',
           '&:hover': {
             borderColor: 'transparent'
           }
