@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   }
 `
 
-const DisablePage = true
+const DisablePage = false
 const Home = (props) => {
   if (DisablePage) {
     <Wrapper>

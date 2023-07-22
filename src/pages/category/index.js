@@ -33,6 +33,7 @@ export async function getServerSideProps (ctx) {
   const productData = await fetchData(api, {
     page_size: 10,
     color: prop('color', query),
+    category: prop('category', query),
     ordering: prop('ordering', query)
   })
 

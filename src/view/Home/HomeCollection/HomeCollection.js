@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { find, flatten, pipe, pluck, prop, propEq } from 'ramda'
+import {find, flatten, pipe, pluck, prop, propEq, propOr} from 'ramda'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -74,7 +74,7 @@ const HomeCollection = props => {
     results
   } = getListData(productCategoryData)
   const getChevrolet = find(propEq('name', 'Chevrolet'))(results)
-  const children = prop('children', getChevrolet)
+  const children = propOr([], 'children', getChevrolet)
   const allModels = pipe(
     pluck('children'),
     flatten

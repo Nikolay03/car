@@ -39,7 +39,6 @@ const HomeProducts = () => {
   const {
     results
   } = getListData(productData)
-
   const carouselRef = useRef(null)
   return (
     <>

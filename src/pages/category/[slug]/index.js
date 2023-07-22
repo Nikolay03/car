@@ -1,6 +1,7 @@
 import React from 'react'
 import { sprintf } from 'sprintf-js'
 import { prop } from 'ramda'
+import { useRouter } from 'next/router'
 
 import { fetchData } from '~/utils/fetch'
 import * as API from '~/constants/api'
@@ -11,11 +12,15 @@ import CategoryProvider from '~/view/Category/CategoryProvider'
 import useRequest from '~/hooks/api/useRequest'
 
 const CategoryDetail = ({ productData, api, ...props }) => {
+  const router = useRouter()
+  const category = router?.query?.category || router?.query?.slug
   const productDataList = useRequest(api, {
+    params: {
+      category
+    },
     disableLocale: true,
     initialData: productData
   })
-
   return (
     <CategoryProvider {...props}>
       <Layout underLine={true}>
@@ -35,9 +40,9 @@ export async function getServerSideProps (ctx) {
   const productData = await fetchData(api, {
     page_size: 10,
     color: prop('color', query),
+    category: prop('category', query) || slug,
     ordering: prop('ordering', query)
   })
-
   const productCategoryData = await fetchData(API.PRODUCT_CATEGORY_LIST, {
     page_size: 10
   })

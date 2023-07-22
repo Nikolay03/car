@@ -12,7 +12,7 @@ const BoxContent = styled.div`
 `
 
 function Image (props) {
-  const { alt, src, children, imageProps, className = '', objectFit, objectPosition, ...restProps } = props
+  const { alt, src, children, imageProps, className = '', objectFit = 'cover', objectPosition, ...restProps } = props
   return (
     <Box {...restProps} className={'imageBox'}>
       {children && (

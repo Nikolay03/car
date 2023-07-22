@@ -7,6 +7,7 @@ import ProductCard from '~/components/ProductCard'
 import { useHomeData } from '~/view/Home/HomeProvider'
 import { getListData } from '~/utils/fetch'
 import { useTranslate } from '~/utils/translate'
+import HomeSection from '~/components/elements/HomeSection'
 
 const FullWidth = styled.div`
   padding-top: 70px;
@@ -41,26 +42,29 @@ const HomePopularProducts = () => {
   const {
     results
   } = getListData(popularProductData)
-  const products = pathOr([], ['0', 'products'], results)
-  const firstObj = pathOr({}, ['0'], results)
 
-  const title = translateData(firstObj, 'title')
-  return (
-    <FullWidth>
-      <Carousel
-        title={title}
-        innerRef={carouselRef}
-        responsive={responsive}
-      >
-        {products.map((item) => {
-          const idCh = item?.id
-          return (
-            <ProductCard key={idCh} data={item} />
-          )
-        })}
-      </Carousel>
-    </FullWidth>
-  )
+  return results.map((section, index) => {
+    const title = translateData(section, 'title')
+    const products = pathOr([], ['products'], section)
+    return (
+      <HomeSection key={index}>
+        <FullWidth>
+          <Carousel
+            title={title}
+            innerRef={carouselRef}
+            responsive={responsive}
+          >
+            {products.map((item) => {
+              const idCh = item?.id
+              return (
+                <ProductCard key={idCh} data={item} />
+              )
+            })}
+          </Carousel>
+        </FullWidth>
+      </HomeSection>
+    )
+  })
 }
 
 export default HomePopularProducts

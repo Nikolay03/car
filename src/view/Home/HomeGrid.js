@@ -19,9 +19,7 @@ const HomeGrid = props => {
       <HomeSection>
         <HomeCollection />
       </HomeSection>
-      <HomeSection>
-        <HomePopularProducts />
-      </HomeSection>
+      <HomePopularProducts />
     </Wrapper>
   )
 }

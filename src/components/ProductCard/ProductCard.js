@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { sprintf } from 'sprintf-js'
-import { prop } from 'ramda'
+import { find, path, pipe, prop, propEq } from 'ramda'
 import Link from 'next/link'
 
 import * as ROUTES from '~/constants/routes'
@@ -68,24 +68,30 @@ const Description = styled('p')`
 const ProductCard = ({ data, priceBottom }) => {
   const { translateData } = useTranslate()
   const id = prop('id', data)
-
   const title = translateData(data, 'name')
   const description = translateData(data, 'shortDescription')
 
   const price = data?.price
+  const images = data?.images
+  const carType = data?.carType?.id
+
+  const image = pipe(
+    find(propEq('isPrimary', true)),
+    path(['image', 'file'])
+  )(images)
   return (
     <ItemWrapper>
       <Item>
         <div>
           <ImageCont>
             <Image
-              objectFit={'contain'}
-              src={'/assets/armchair.png'}
+              objectFit={'cover'}
+              src={image}
               alt={'banner'}
               style={{ height: '300px', width: '100%', userSelect: 'none' }}
             />
           </ImageCont>
-          <Link href={sprintf(ROUTES.PRODUCTS_ITEM_URL, id)}>
+          <Link href={{ pathname: sprintf(ROUTES.PRODUCTS_ITEM_URL, id), query: { carType } }}>
             <Hover>
               <SubTitle><Title>{title}</Title> {!priceBottom && (<span>{numberFormat(price)} сум</span>)}</SubTitle>
               <Description>{description}</Description>
